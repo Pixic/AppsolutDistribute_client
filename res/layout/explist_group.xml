@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  © 2012 Stefan Arvidsson -->
+<!-- Defines the layout properties of the group -->
+ <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+     android:layout_width="fill_parent" 
+     android:layout_height="55dip" 
+     android:background="@color/ExpGroupBackground" 
+     android:orientation="vertical" >  
+     
+     <TextView  
+         android:id="@+id/tvGroup" 
+         android:layout_width="fill_parent" 
+         android:layout_height="wrap_content" 
+         android:layout_marginRight="15dp" 
+         android:textColor="@color/black" 
+         android:textSize="24dip"         
+         />  
+ </LinearLayout> 

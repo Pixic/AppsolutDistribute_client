@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <!--  © 2012 Stefan Arvidsson -->
+ <!-- The layout for MainActivity  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+     android:layout_width="fill_parent" 
+     android:layout_height="fill_parent" 
+     android:orientation="vertical" >  
+    		 <!-- Sets the ExpandableListView properties  -->
+             <ExpandableListView  
+                 android:id="@+id/ExpList" 
+                 android:layout_height="match_parent" 
+                 android:layout_width="match_parent" 
+                 android:groupIndicator="@null" 
+                />         
+                
+             
+
+ </LinearLayout> 
