@@ -14,14 +14,15 @@
    limitations under the License.
 
  -->
- <!-- Defines layout properties of a child in the group -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/explist_child" >
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_text_input"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:ems="10"
+    android:singleLine="true"
+    android:inputType="text"
+    >
 
-
-    <TextView
-        android:id="@+id/tvChild"
-		style="@style/explist_child_textview"
-	/>
-
-</LinearLayout>
+    
+    <requestFocus />
+</EditText>

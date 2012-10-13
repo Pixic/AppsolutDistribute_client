@@ -1,6 +1,101 @@
-<!--  © 2012 Stefan Arvidsson -->
-<resources>
+<!--    Copyright [2012] [Stefan Arvidsson]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+ -->
+ <!-- Defines styles of different layout components -->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="AppTheme" parent="android:Theme.Light" />
+    
+    
+	<style name="explist_group">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">55dip</item>
+	    <item name="android:background">@color/ExpGroupBackground</item>
+	    <item name="android:orientation">vertical</item> 
+	</style>
+    
+    <style name="explist_group_textview">
+       <item name="android:layout_width">fill_parent</item>
+       <item name="android:layout_height">wrap_content</item>
+       <item name="android:layout_marginRight" >15dp</item>       
+       <item name="android:textColor">@color/black</item>
+       <item name="android:textSize" >24dip</item>  
+    </style>
+    
+    <style name="explist_child">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">55dip</item>
+        <item name="android:background">@color/ExpChildBackground</item>
+        <item name="android:orientation">vertical</item>
+    </style>
 
+	<style name="explist_child_textview">
+	    <item name="android:layout_width">fill_parent</item>
+	    <item name="android:layout_height">wrap_content</item>
+	    <item name="android:textColor">@color/black</item>
+	    <item name="android:textSize">20dip</item>
+	</style>
+
+    
+	<style name="about_layout">
+	    <item name="android:layout_width">match_parent</item>
+	    <item name="android:layout_height">match_parent</item>
+	    <item name="android:orientation">vertical</item>
+	</style>
+	
+	
+	<!-- Own dialog style -->
+	<style name="custom">
+	    
+	</style>
+	
+	
+	<!-- Override the Dialog's theme here -->
+	
+<style name="customdialog" parent="android:style/Theme.Dialog">
+    <item name="android:windowFrame">@null</item>
+    <item name="android:windowTitleStyle">@null</item> <!-- @android:style/DialogWindowTitle -->
+    <item name="android:windowBackground">@null</item> <!--@drawable/ic_launcher  -->
+    <item name="android:windowIsFloating">true</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+    <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+</style>
+	
+	
+	<style name="txtAppearance">
+		<item name="android:textSize">18sp</item>
+		<item name="android:textStyle">normal</item>
+		<item name="android:textColor">#000000</item>
+	</style>
+	<style name="DialogWindowTitle">
+		<item name="android:maxLines">1</item>
+		<item name="android:scrollHorizontally">true</item>
+		<item name="android:textAppearance">@style/txtAppearance</item>
+	</style>
+	<style name="popupStyle">
+		<item name="android:windowFrame">@null</item>
+		<item name="android:windowTitleStyle">@style/DialogWindowTitle</item>
+		<item name="android:windowIsFloating">true</item>
+		<item name="android:windowContentOverlay">@null</item>
+		<item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+		<item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+	</style>
+
+	
+	
+	
+	
 </resources>

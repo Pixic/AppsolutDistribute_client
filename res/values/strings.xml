@@ -1,21 +1,45 @@
-<!--  © 2012 Stefan Arvidsson, Mattias Isense -->
+<!--    Copyright [2012] [Stefan Arvidsson, Mattias Isene]
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+ -->
 <resources>
     <!-- Strings made/named by default -->
     <string name="app_name">AppsolutDistribute</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">Appsolut Distribute</string>
     
-
+    <!-- Error Strings -->
+	<string name="error_title">Error:</string>
+	<string name="error_on_creating_expandable_list">Error on creating an expandablelist!</string>
+	<string name="error_empty_menu">Varning! This menu is empty</string>
+	
     <!-- Title strings -->
     <string name="exit_title">Are you sure you want to leave?</string>
     <string name="settings_title">Settings</string>
+    <string name="about_title">About</string>
+    <string name="create_account_title">Create Account</string>
 	
 	<!-- Strings for Settings Dialog -->
-	<!--  -->
+	<!-- Strings for Dialog subtitles  -->
+	<string name="username">Username: </string>
+	<string name="password">Password:</string>
 	<!-- Strings used by several Dialogs -->
 	<string name="done">Done</string>
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
+	<string name="back">Back</string>
+	
 	
 	
     <!-- The definition for the Colors used in the application -->
@@ -31,6 +55,7 @@
     
     <!-- Strings to complement "title_activity_main", when in a different ExpandableListView menu -->
     <string name="add_help_tile">: Help</string>
+    <string name="add_online_tile">: Online</string>
        
     <!-- ExpandableListView: Consits of two string arrays one for the group and one for the 
     	 children. The Childrens string array has a divider which is an empty string, has the 
@@ -72,5 +97,26 @@
    	 	<item>Back</item>
     </string-array>
 
+	<!-- Online menu -->
+	    <string-array name = "online_groups" >
+	    <item>Manage Groups</item>				
+	    <item>Manage Account</item>  			
+	    <item>Options</item>  				    
+	</string-array>
+	
+	<string-array name = "online_children" >
+		<item>My Groups</item>
+		<item>Create Group</item>		
+		<item>Join Group</item>		
+		<item>Answer Group Invites</item>							
+   	 	<item></item> 						
+   	 	<item>Change Username </item>					
+   	 	<item>Change Password</item>
+   	 	<item>End Account</item>
+   	 	<item></item>
+   	 	<item>Logout</item>	
+   	 	<item>About</item>
+   	 	<item>Help</item>	 	
+    </string-array>
    
 </resources>

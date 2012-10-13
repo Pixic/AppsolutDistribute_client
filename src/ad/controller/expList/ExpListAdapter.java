@@ -23,7 +23,19 @@ import android.widget.TextView;
  * 			Implementation Methods, methods: getChild, getChildId, getChildView, getChildrenCount, getGroup, getGroupCount, getGroupId, hasStableIds, isChildSelectable
  * 
  * @author Stefan Arvidsson 
- * © 2012 Stefan Arvidsson
+ * Copyright [2012] [Stefan Arvidsson]
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 public class ExpListAdapter extends BaseExpandableListAdapter {  
 	// Initiates the adapter's instances
@@ -41,6 +53,7 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
     public ExpListAdapter(Context context, String menuName) {  
         this.context = context;  
         setActiveMenu(menuName);
+        // setActiveMenu("jfsoj"); test example 
         //addItem((ExpListChild) this.getChild(1, 0),(ExpListGroup)groups.get(0)); // addItem test
 	}  
     
@@ -77,10 +90,14 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
    				 tag = "help";
    				 inputGroups = context.getResources().getStringArray(R.array.help_groups);
    				 inputChildren = context.getResources().getStringArray(R.array.help_children);
+			 }else if(menu.equals("online")){
+   				 tag = "online";
+   				 inputGroups = context.getResources().getStringArray(R.array.online_groups);
+   				 inputChildren = context.getResources().getStringArray(R.array.online_children);
 			 }
 			 // Wrong menu name doesn't exist
 			 if(inputGroups.equals(null)){
-				 throw new Exception("Menu name does not exist!"); 
+				 throw new Exception(context.getResources().getString(R.string.error_empty_menu)); 
 			 }		 
 			 int j = 0;   	 
 			 for(String group:inputGroups){
@@ -103,10 +120,10 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
 			 }
 		 }catch(Exception e){
 			 AlertDialog.Builder error = new AlertDialog.Builder(context);
-			 error.setTitle("Error on creating an expandablelist!");
-			 error.setMessage(e.getMessage());
-			 error.setNeutralButton("Ok", null);
-			 error.create().show();
+			 error.setTitle(context.getResources().getString(R.string.error_title))
+			 	  .setMessage(context.getResources().getString(R.string.error_on_creating_expandable_list)+"\n"+ e.getMessage())
+			 	  .setNeutralButton("Ok", null)
+			      .create().show();
 		 }
    	 	return list;
     }
