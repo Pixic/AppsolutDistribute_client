@@ -1,0 +1,33 @@
+code for expandablelistview:(outdated)
+http://about-android.blogspot.se/2010/04/steps-to-implement-expandablelistview.html
+
+xml for expandablelistview:(outdated)
+http://stackoverflow.com/questions/8923551/how-to-use-android-expandablelistview-in-xml
+
+expandablelistview: (some of the original source code does still exist)
+http://www.dreamincode.net/forums/topic/270612-how-to-get-started-with-expandablelistview/
+
+error handeling: (inspiration only)
+http://stackoverflow.com/questions/1948222/is-there-a-way-to-display-a-custom-exception-in-an-alert-under-android
+
+Custom Dialog:
+http://stackoverflow.com/questions/2773502/android-custom-popupwindow-dialog
+http://pastebin.com/RRR15YYS
+Google's own code uses Apache License v2
+
+ListView: (used for chat)
+http://www.androidpeople.com/listview
+
+listview and database:(not yet implemented)
+http://www.hdelossantos.com/2010/01/07/using-a-sqlite-database-in-android/ (Fungerar)
+http://www.vogella.com/articles/AndroidSQLite/article.html (Fungerar inte)
+
+other sources for listview:(not used)
+http://www.mkyong.com/android/android-listview-example/
+
+licens:
+http://www.apache.org/licenses/LICENSE-2.0.html
+
+___________________________________________________________________________________________
+Stefan Arvidsson
+Last update: 2012-10-16 
