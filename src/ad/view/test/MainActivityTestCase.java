@@ -1,6 +1,8 @@
 package ad.view.test;
 
 import junit.framework.TestCase;
+import ad.controller.list.ExpListAdapter;
+import ad.view.activity.MainActivity;
 /**
  * 
  * @author Stefan Arvidsson
@@ -20,5 +22,13 @@ import junit.framework.TestCase;
  * 
  */
 public class MainActivityTestCase extends TestCase {
+	private ExpListAdapter expAdapter; 
+	private MainActivity main = new MainActivity();
+	public MainActivityTestCase(){
+		expAdapter = new ExpListAdapter(main, "tjo");
+
+		assertEquals(expAdapter.getActiveMenu().size(), 0);
+	}
+	
 	
 }

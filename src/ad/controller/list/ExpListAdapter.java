@@ -1,4 +1,4 @@
-package ad.controller.expList;
+package ad.controller.list;
 
 import java.util.ArrayList; 
 import ad.view.activity.R;
@@ -40,7 +40,7 @@ import android.widget.TextView;
 public class ExpListAdapter extends BaseExpandableListAdapter {  
 	// Initiates the adapter's instances
     private Context context;  			
-    private ArrayList<ExpListGroup> groups;  
+    private ArrayList<ExpListGroup> groups;      
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 // Initialize Section - The methods to build the Expandable List Adapter. ---------------------------------------------------------------------------
@@ -86,15 +86,29 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
    			 	 tag = "start";
    				 inputGroups = context.getResources().getStringArray(R.array.start_groups);
    				 inputChildren = context.getResources().getStringArray(R.array.start_children);
-			 }else if(menu.equals("help")){
-   				 tag = "help";
-   				 inputGroups = context.getResources().getStringArray(R.array.help_groups);
-   				 inputChildren = context.getResources().getStringArray(R.array.help_children);
+			 }else if(menu.equals("help1")){
+   				 tag = "help1";
+   				 inputGroups = context.getResources().getStringArray(R.array.help_groups1);
+   				 inputChildren = context.getResources().getStringArray(R.array.help_children1);
 			 }else if(menu.equals("online")){
    				 tag = "online";
    				 inputGroups = context.getResources().getStringArray(R.array.online_groups);
    				 inputChildren = context.getResources().getStringArray(R.array.online_children);
+			 }else if(menu.equals("help2")){
+   				 tag = "help2";
+   				 inputGroups = context.getResources().getStringArray(R.array.help_groups2);
+   				 inputChildren = context.getResources().getStringArray(R.array.help_children2);
 			 }
+//			 else if(menu.equals("group")){
+//   				 tag = "group";
+//   				 inputGroups = context.getResources().getStringArray(R.array.group_groups);
+//   				 inputChildren = context.getResources().getStringArray(R.array.group_children);
+//			 }else if(menu.equals("help3")){
+//   				 tag = "help3";
+//   				 inputGroups = context.getResources().getStringArray(R.array.help_groups3);
+//   				 inputChildren = context.getResources().getStringArray(R.array.help_children3);
+//			 }
+			 
 			 // Wrong menu name doesn't exist
 			 if(inputGroups.equals(null)){
 				 throw new Exception(context.getResources().getString(R.string.error_empty_menu)); 
@@ -131,7 +145,7 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------
 // Expandable List Operations Section - Operations to find out more about the expandable list and do operations on it--------------------------------
-//--------------------------------------------------------------------------------------------------------------------------------------------------- 
+//---------------------------------------------------------------------------------------------------------------------------------------------------    
     /**
      * getActiveMenu - Returns the active menu, used by the MainActivity by the onChildClick method in On Click/Select Section
      * 				   to initiate the listening on the expandable list menus. 

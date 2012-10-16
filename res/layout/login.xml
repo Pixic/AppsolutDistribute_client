@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/dialog_scroll_style" >
+
+    <LinearLayout style="@style/dialog_linearlayout_style" >
+
+        <TextView
+            android:id="@+id/username_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/username" />
+
+        <include
+            android:id="@+id/user_text_input"
+            layout="@layout/dialog_text_input" />
+
+        <TextView
+            android:id="@+id/password_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/password" />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword" >
+        </EditText>
+        
+          <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_button"
+             />
+
+        <include
+            android:id="@+id/dialog_back_button"
+            layout="@layout/dialog_back_button" />
+        
+        
+        
+        
+    </LinearLayout>
+
+</ScrollView>

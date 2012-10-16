@@ -36,4 +36,9 @@ public class CustomDialog extends Dialog {
 		// TODO Auto-generated constructor stub
 	}
 
+	public void addListComponent(){
+		
+	}
+	
+	
 }
