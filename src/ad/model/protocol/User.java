@@ -28,7 +28,7 @@ public class User implements Serializable{
 
 	
 	private int userId;
-	private String userName, emailAddress;
+	private String userName, password,firstName, surname, emailAddress;
 	//private NåntingAnnat password;
 	private ArrayList<Group> groups;
 	private boolean isConfirmed, isLoggedIn;

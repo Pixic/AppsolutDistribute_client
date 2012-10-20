@@ -42,8 +42,10 @@ Kommentar: Troligen går ovanstånde buggar att åtgära i style.xml eller direkt i 
   (andra scenariot FIXAT 2012-10-19)	      
 
 2012-10-20 (1)
-- Vid klick på Service notification så kommer man tillbaka till start menyn och inte tillbaka
-  till online menyn.
+- Vid tryck på Service funktionens ikon i Ongoing fältet startas appen om, men Service funktionen
+  var tänkt att endast köra när man är online, dvs att man skall hamna i online menyn vid tryck
+  utav ikonen i Ongoing fältet.
+
 
 //////////////////////////////////////////////////////////////////////////////////////////
 

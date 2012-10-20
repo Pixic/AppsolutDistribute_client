@@ -14,11 +14,17 @@
    limitations under the License.
 
  -->
-  <!-- The end account layout -->
+  <!-- The end account dialog layout -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/dialog_scroll_style" >
 
     <LinearLayout style="@style/dialog_linearlayout_style" >
+        
+        
+     <TextView
+            android:id="@+id/end_account_password_subtitle"
+			style="@style/dialog_textview_style"
+            android:text="@string/end_account_password_text" />	
     
      <include layout="@layout/dialog_double_password" />
     

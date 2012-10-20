@@ -96,8 +96,9 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	private InputFilter[] filters = {new CharacterFilter (), new LengthFilter(40)};
 
 	private static final int AUTHORITY_USER=0, AUTHORITY_MODERATOR=1, AUTHORITY_ADMIN=2;
-	private int minUsername=4, maxUsername=20,maxName=20, minPassword=6, 
-							maxPassword=20, maxEmail=40, minGroupName=4, maxGroupName=20;
+	private static final int minUsername=4, maxUsername=20,maxName=20, minPassword=6, 
+							 maxPassword=20, maxEmail=40, minGroupName=4, 
+							 maxGroupName=20, groupInfo = 250;
 
 	//private int currentAuthority = AUTHORITY_USER;
 			
@@ -333,9 +334,10 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			// dialog
 			}else if(label.equals(getResources().getStringArray(R.array.group_children)[1])){ // Group Info
 				createNewDialog(label, R.layout.info);
-				//((TextView) custom.findViewById(R.id.info)).setText(getResources().getText(R.string.help5_1));// Change the getResources().getText(R.string.help5_1) to data from group.
+				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
+				//((TextView) custom.findViewById(R.id.info)).setText(getResources().getText(R.string.help5_1));// Change the getResources().getText(R.string.help5_1) to data from server.
 			}else if(label.equals(getResources().getStringArray(R.array.group_children)[2])){ // Leave Group
-	
+				leaveGroup();
 /*group 2*/	}else if (label.equals(getResources().getStringArray(R.array.group_children)[4])) { // Chat
 			// dialog
 /*group 3*/	}else if (label.equals(getResources().getStringArray(R.array.group_children)[6])) { // About
@@ -360,13 +362,13 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 /*a*/		}else if(label.equals(getResources().getStringArray(R.array.authority_children)[6])){ // Change Group Name
 				createNewDialog(label, R.layout.change_group_name);
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[7])){ // Set Group Info
-				//createNewDialog(label, R.layout.);
+				createNewDialog(label, R.layout.set_group_info);
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[8])){ // Promote User
 				//createNewDialog(label, R.layout.);
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[9])){ // Demote User
 				//createNewDialog(label, R.layout.);
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[10])){ // End Group
-				//endGroup();
+				createNewDialog(label, R.layout.end_group);			
 			}
 			
 			
@@ -633,7 +635,16 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			createDialogButton(R.id.change_group_name_button);
 			((EditText) custom.findViewById(R.id.user_text_input)).setFilters(filters);
 			((EditText) custom.findViewById(R.id.password)).setFilters(filters);
+		}else if(layout == R.layout.set_group_info){
+			createDialogButton(R.id.set_group_info_button);
+			InputFilter[] f = {new LengthFilter(groupInfo)};
+			((EditText) custom.findViewById(R.id.user_text_input)).setFilters(f);
+		}else if(layout == R.layout.end_group){
+			createDialogButton(R.id.end_group_button);
+			((EditText) custom.findViewById(R.id.password1)).setFilters(filters);
+			((EditText) custom.findViewById(R.id.password2)).setFilters(filters);
 		}
+		
 		createDialogButton(R.id.dialog_back_button);
 		custom.show();
 	}
@@ -678,7 +689,12 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 				endAccount();
 			}else if(v.equals(custom.findViewById(R.id.change_group_name_button))){
 				changeGroupName();
+			}else if(v.equals(custom.findViewById(R.id.set_group_info_button))){
+				setGroupInfo();
+			}else if(v.equals(custom.findViewById(R.id.end_group_button))){
+				endGroup();
 			}
+			
 		}
 	};
 
@@ -758,7 +774,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 				throw new Exception(getResources().getString(R.string.account_error_surname));
 			if(email.getText().toString().length() > maxEmail ) // might be unnecessary, depending on maximum input size in filter.
 				throw new Exception(getResources().getString(R.string.account_error_email));
-			// Attempt validation check of email. maybe
+			// Attempt validation check of email. maybe if there is time...
 			// The create account attempt, check if everything went well, if so go online.
 			 if(!(protocol.attemptCreationOfAccount(username.getText().toString(),password1.getText().toString(), 
 					 firstName.getText().toString(),surname.getText().toString()))){
@@ -767,7 +783,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 
 				// Go online... one should go online (server should set the user) 
 				// once the account has been created, meaning -> go to the online menu
-				 //or else goOnline(username.getText().toString(), password1.getText().toString()); 
+				 //or else goOnline(username.getText().toString(), password1.getText().toString()); 				 protocol.attemptCreationOfAccount(username, password, firstName, surname)
 				 startService(new Intent(this, AppService.class));
 				 goToMenu("online",getResources().getString(R.string.add_online_tile));				
 				closeDialog();
@@ -865,7 +881,12 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		}
 	}
 	
-	
+	/**
+	 * NOT COMPLETE
+	 * changeUserInfo - Reads in the user input and checks if its correct, if not send
+	 * 		  		 	a message to inform the user of what went wrong. If correct
+	 * 		 			change the user info and close the dialog.  
+	 */
 	public void changeUserInfo(){
 		EditText username = (EditText) custom.findViewById(R.id.change_username_text_input);
 		EditText firstName = (EditText) custom.findViewById(R.id.change_first_name_text_input);
@@ -896,6 +917,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	}
 	
 	/**
+	 *  NOT COMPLETE
 	 * changePassword - Reads in the user input and checks if its correct, if not send
 	 * 		   			a message to inform the user of what went wrong. If correct
 	 * 		   			change the password and close the dialog.
@@ -921,12 +943,9 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 				throw new Exception(getResources().getString(R.string.change_error_new_to_long_password));
 			}else if(!((password1.getText().toString()).equals(password2.getText().toString()))){
 				throw new Exception(getResources().getString(R.string.change_error_new_passwords_mismatch));
-			}
-	
-				
+			}		
 				// request change of user password
 				// throw failed exception if no success
-			//Success
 			closeDialog();
 			Toast.makeText(getBaseContext(),R.string.change_password_success, Toast.LENGTH_LONG).show();
 		}catch(Exception e){
@@ -937,11 +956,11 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	}
 	
 	/**
+	 *  NOT COMPLETE
 	 * endAccount - Reads in the user input and checks if its correct, if not send
 	 * 		   		a message to inform the user of what went wrong. If correct
-	 * 		   		end the account, close the dialog and go back to start dialog.
+	 * 		   		end the account, close the dialog and go back to start menu.
 	 */
-	//@SuppressWarnings("finally")
 	public void endAccount(){
 		EditText password1 = (EditText) custom.findViewById(R.id.password1);
 		EditText password2 = (EditText) custom.findViewById(R.id.password2);
@@ -966,9 +985,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 								// Add actions on click here
 								public void onClick(DialogInterface dialog,
 										int which) {
-									// Attempt end account
-									
-									// if failed throw new Exception(getResources().getString(R.string.end_account_failed));
+									//Attempt end account, if failed throw new Exception(getResources().getString(R.string.end_account_failed));
 									
 									// Success go back to start menu and close dialog
 									try{// prevents bug, can't logout twice if multiple dialogs shows (cause fast clicking)
@@ -982,18 +999,56 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 											setTitle(getResources().getString(R.string.title_activity_main));		
 										}
 									}catch(Exception e){}
-
 								}
 							})
 					.setNegativeButton(R.string.no, null).create().show();
 		}catch(Exception e){
 			Toast.makeText(getBaseContext(),e.getMessage(), Toast.LENGTH_LONG).show();
 		}
-
 	}
 	
+// In group menu	
+	
 	/**
-	 * changeGroupName - 
+	 *  NOT COMPLETE
+	 * leaveGroup - Opens an AlertDialog and gives the user the choice to leave the group 
+	 * 				or to stay in the group.
+	 */
+	public void leaveGroup(){
+		// Give warning
+		AlertDialog.Builder exit = new AlertDialog.Builder(MainActivity.this);
+		exit.setTitle(R.string.leave_group_last_chance)
+				.setMessage(R.string.leave_group_warning_text)
+				.setIcon(CONTEXT_IGNORE_SECURITY)
+				.setNeutralButton(R.string.yes,
+						new DialogInterface.OnClickListener() {
+							// Add actions on click here
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// Attempt leave group, if failed throw new Exception(getResources().getString(R.string.leave_group_failed));
+								
+								// Success go back to start menu and close dialog
+								try{// prevents bug, can't end group twice if multiple dialogs shows (cause fast clicking)
+									if(!((backAppTitle.peek()).equals(((MainActivity.this).getResources().getString(R.string.add_online_tile))))){
+										closeDialog();
+										Toast.makeText(getBaseContext(), getResources().getString(R.string.leave_group_success) + backAppTitle.peek().toString()/*+ get groupname*/ , Toast.LENGTH_LONG).show();
+										expAdapter = backExpMenu.pop();
+										expandList.setAdapter(expAdapter);			
+										backAppTitle.pop();
+										setTitle(getResources().getString(R.string.title_activity_main)+backAppTitle.peek().toString());		
+									}
+								}catch(Exception e){}
+							}
+						})
+				.setNegativeButton(R.string.no, null).create().show();
+	}
+	
+	
+	/**
+	 *  NOT COMPLETE
+	 * changeGroupName - Reads in the user input and checks if its correct, if not send
+	 * 		   			 a message to inform the user of what went wrong. If correct
+	 * 		   			 change the group's name, close the dialog and go back to group menu.
 	 */
 	public void changeGroupName(){
 		// Attempt create group
@@ -1001,27 +1056,91 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		EditText password = (EditText) custom.findViewById(R.id.password);
 		try{
 			// Check Group Name
-//			if (groupName.getText().toString().length() == 0){
-//				throw new Exception(getResources().getString(R.string.change_group_name_error_no_name));
-//			}else if(groupName.getText().toString().length() < minGroupName){
-//				throw new Exception(getResources().getString(R.string.change_group_name_error_name_to_short));
-//			}else if(groupName.getText().toString().length() > maxGroupName){
-//				throw new Exception(getResources().getString(R.string.change_group_name_error_name_to_long));
+			if (groupName.getText().toString().length() == 0){
+				throw new Exception(getResources().getString(R.string.change_group_name_error_no_name));
+			}else if(groupName.getText().toString().length() < minGroupName){
+				throw new Exception(getResources().getString(R.string.change_group_name_error_name_to_short));
+			}else if(groupName.getText().toString().length() > maxGroupName){
+				throw new Exception(getResources().getString(R.string.change_group_name_error_name_to_long));
+			}// Check Password
+			if(password.getText().toString().length() == 0){
+				throw new Exception(getResources().getString(R.string.change_group_name_error_no_password));
+			}else if (password.getText().toString().length() < minPassword){
+				throw new Exception(getResources().getString(R.string.change_group_name_error_password_to_short));
+			}else if(password.getText().toString().length() > maxPassword){
+				throw new Exception(getResources().getString(R.string.change_group_name_error_password_to_long));
+			}	
+			
+			// make sure the group name is changed becomes admin in database.
+//			if(protocol.attemptChangeGroupName(groupName.getText().toString())){
+//				// Goes directly to the created group 			
+//			}else{
+//				throw new Exception(getResources().getString(R.string.change_group_name_error_failed));
+//		    }
+			// Note dangerous since the code above is not implemented 
+				CharSequence s= new String(this.getResources().getString(R.string.title_activity_main)+ ": "+groupName.getText().toString());
+				setTitle(s);
+				// Make sure that the new name is distributed
+				closeDialog();
+						
 //			}
 			
-//			if(protocol.attemptCreateGroup(groupName.getText().toString())){
-//				// Goes directly to the created group
-//				CharSequence s= new String(": "+groupName.getText().toString());
-//				goToMenu("group",s);
-//				closeDialog();
-//				expAdapter.addAuthority(AUTHORITY_ADMIN);
-//				// make sure the user becomes admin in database.
-//			}
-			
-//			Toast.makeText(getBaseContext(),R.string.change_group_name_success, Toast.LENGTH_LONG).show();
+			Toast.makeText(getBaseContext(),R.string.change_group_name_success, Toast.LENGTH_LONG).show();
 		}catch(Exception e){
 			Toast.makeText(getBaseContext(),e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
+	/**
+	 *  NOT COMPLETE
+	 * 	setGroupInfo - Not yet fully implemented
+	 */
+	public void setGroupInfo(){
+		EditText groupName = (EditText) custom.findViewById(R.id.user_text_input);
+		// Attempt to set group info (in server database) throw exception if failed...		
+	}
+
+	public void endGroup(){
+		EditText password1 = (EditText) custom.findViewById(R.id.password1);
+		EditText password2 = (EditText) custom.findViewById(R.id.password2);
 		
+		try{
+			// Check if the user password input is correct
+			if((password1.getText().toString().length() == 0) || (password2.getText().toString().length() == 0)){
+				throw new Exception(getResources().getString(R.string.end_group_no_passwords));
+			}else if((password1.getText().toString().length() < minPassword) || (password2.getText().toString().length() < minPassword)){
+				throw new Exception(getResources().getString(R.string.end_group_password_to_short));
+			}else if((password1.getText().toString().length() > maxPassword) || (password2.getText().toString().length() > maxPassword)){
+				throw new Exception(getResources().getString(R.string.end_group_password_to_long));
+			}else if(!((password1.getText().toString()).equals(password2.getText().toString()))){
+				throw new Exception(getResources().getString(R.string.end_group_password_mismatch));
+			}			
+			// Give warning
+			AlertDialog.Builder exit = new AlertDialog.Builder(MainActivity.this);
+			exit.setTitle(R.string.end_group_last_chance)
+					.setIcon(CONTEXT_IGNORE_SECURITY)
+					.setNeutralButton(R.string.yes,
+							new DialogInterface.OnClickListener() {
+								// Add actions on click here
+								public void onClick(DialogInterface dialog,
+										int which) {
+									// Attempt end group, if failed throw new Exception(getResources().getString(R.string.end_group_failed));
+									
+									// Success go back to start menu and close dialog
+									try{// prevents bug, can't end group twice if multiple dialogs shows (cause fast clicking)
+										if(!((backAppTitle.peek()).equals(((MainActivity.this).getResources().getString(R.string.add_online_tile))))){
+											closeDialog();
+											Toast.makeText(getBaseContext(),R.string.end_group_success, Toast.LENGTH_LONG).show();
+											expAdapter = backExpMenu.pop();
+											expandList.setAdapter(expAdapter);			
+											backAppTitle.pop();
+											setTitle(getResources().getString(R.string.title_activity_main)+backAppTitle.peek().toString());		
+										}
+									}catch(Exception e){}
+								}
+							})
+					.setNegativeButton(R.string.no, null).create().show();
+		}catch(Exception e){
+			Toast.makeText(getBaseContext(),e.getMessage(), Toast.LENGTH_LONG).show();
+		}
+	}
 }

@@ -140,20 +140,17 @@ public class AppService extends Service{
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
 		
 		int icon = R.drawable.ic_launcher;
-		CharSequence tickerText = "Hej Stefan :D";
 		long when = System.currentTimeMillis();
-		Notification notification = new Notification(icon, tickerText, when);
-		// Set icon, and tickertext and put out the notification
+		Notification notification = new Notification(icon, getResources().getString(R.string.service_ticker_text)/*tickerText*/, when);
+		// Set icon, and tickertext and put out the notification 
 		
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
 		Context context = getApplicationContext();
-		CharSequence contentTitle = "AppsolutDistribute";
-		CharSequence contentText = "Release the Kraken!";
 		// Flag the ongoing event with carefully planned title and content text
 		
 		Intent notificationIntent = new Intent(this, MainActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+		notification.setLatestEventInfo(context, getResources().getString(R.string.service_app_title), getResources().getString(R.string.service_app_message), contentIntent);
 		mNotificationManager.notify(NOTIFICATION_ID, notification);
 		// Det var två blinda programmerare... och en kunde C
 		// get it? :D :D :D  ( C == se ) 

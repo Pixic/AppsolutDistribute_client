@@ -44,7 +44,7 @@ public class ChatMessage implements Serializable{
 	{
 		return from;
 	}
-
+	
 	public Group getGroup()
 	{
 		return to;
