@@ -13,16 +13,11 @@
    See the License for the specific language governing permissions and
    limitations under the License.
  -->
+ <!-- Used by dialogs with only one EditText field, with only plain text as input -->
 <EditText xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/user_text_input"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:ems="10"
-    android:singleLine="true"
-    android:inputType="text"
-    >
-
-    
+    style="@style/dialog_edittext_style"
+	android:inputType="text" >   
     <requestFocus />
 </EditText>
 

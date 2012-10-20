@@ -41,10 +41,6 @@ Kommentar: Troligen går ovanstånde buggar att åtgära i style.xml eller direkt i 
   applikationen att utföra en händelse flera gånger, vilket orsaker kraschen. 
   (andra scenariot FIXAT 2012-10-19)	      
 
-2012-10-20 (1)
-- Vid klick på Service notification så kommer man tillbaka till start menyn och inte tillbaka
-  till online menyn.
-
 //////////////////////////////////////////////////////////////////////////////////////////
 
 Okända/potentiella buggar som bör testas.
@@ -98,7 +94,6 @@ Bugg status:
 		ifall man redan utfört åtgärden(tex i logout skickar man i stacken för att
 		se om man är i rot menyn dvs "start" menyn).  
 
-2012-10-20 (1): EJ FIXAT
 
 //////////////////////////////////////////////////////////////////////////////////////////
 (c) 2012 Stefan Arvidsson

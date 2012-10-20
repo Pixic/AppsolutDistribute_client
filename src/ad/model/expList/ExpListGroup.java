@@ -46,7 +46,7 @@ public class ExpListGroup {
       * setLabel - Sets the incoming String as the group's new label.
       * @param label - A String with the groups new label.
       */
-     public void setId(String label) {  
+     public void setLabel(String label) {  
          this.label = label;  
      }  
      /**

@@ -61,6 +61,23 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
     </style>
+    
+    <style name="dialog_textview_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    
+     <style name="dialog_edittext_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ems">10</item>
+        <item name="android:singleLine">true</item>
+    </style>   
+    
+     <style name="dialog_button_style">
+         <item name="android:layout_width">wrap_content</item>
+         <item name="android:layout_height">wrap_content</item>
+     </style>
 
     <!-- Override the Dialog's theme here, some changes that makes it differs the style from the source -->
 
@@ -76,7 +93,7 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
 
-    <!-- Custom dialog popupstyle, some changes that makes it differs the style from the source -->
+    <!-- Custom dialog popupstyle, some changes that makes it differs the style from the source. Defines the text appearance -->
     <style name="txtAppearance">
         <item name="android:textSize">18dp</item>
         <item name="android:textStyle">normal</item>

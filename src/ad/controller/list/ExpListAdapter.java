@@ -13,14 +13,21 @@ import android.widget.TextView;
 
 /**
  * ExpListAdapter - extends BaseExpandableListAdapter.
- * This class acts as a bridge between the View and the Model. It is therefore the controller of the ExpandableListView.
- * This class constructs expandable list menus (ArrayList<ExpListGroup>).
+ * This class acts as a bridge between the View and the Model. It is therefore the 
+ * controller of the ExpandableListView. This class constructs expandable list 
+ * menus (ArrayList<ExpListGroup>).
+ * 
  * Class content:
+ * 
  * Instances: Context context, ArrayList<ExpListGroup> groups
- * Sections:
- * 			Initialize, methods: ExpListAdapter (constructor), setActiveMenu (private), buildExpList (private)
- * 			Expandable List Operation, methods: getActiveMenu, addItem
- * 			Implementation Methods, methods: getChild, getChildId, getChildView, getChildrenCount, getGroup, getGroupCount, getGroupId, hasStableIds, isChildSelectable
+ * 
+ * Sections and their methods:
+ * Initialize: ExpListAdapter (constructor), setActiveMenu (private), buildExpList (private)
+ * 
+ * Expandable List Operation: getActiveMenu, addItem
+ * 			
+ * Implementation Methods: getChild, getChildId, getChildView, getChildrenCount, getGroup, 
+ * 						   getGroupCount, getGroupId, hasStableIds, isChildSelectable
  * 
  * @author Stefan Arvidsson 
  * Copyright [2012] [Stefan Arvidsson]
@@ -98,16 +105,16 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
    				 tag = "help2";
    				 inputGroups = context.getResources().getStringArray(R.array.help_groups2);
    				 inputChildren = context.getResources().getStringArray(R.array.help_children2);
+			 }else if(menu.equals("group")){
+   				 tag = "group";
+   				 inputGroups = context.getResources().getStringArray(R.array.group_groups);
+   				 inputChildren = context.getResources().getStringArray(R.array.group_children);
+   				 // get authority level
+			 }else if(menu.equals("help3")){
+   				 tag = "help3";
+   				 inputGroups = context.getResources().getStringArray(R.array.help_groups3);
+   				 inputChildren = context.getResources().getStringArray(R.array.help_children3);
 			 }
-//			 else if(menu.equals("group")){
-//   				 tag = "group";
-//   				 inputGroups = context.getResources().getStringArray(R.array.group_groups);
-//   				 inputChildren = context.getResources().getStringArray(R.array.group_children);
-//			 }else if(menu.equals("help3")){
-//   				 tag = "help3";
-//   				 inputGroups = context.getResources().getStringArray(R.array.help_groups3);
-//   				 inputChildren = context.getResources().getStringArray(R.array.help_children3);
-//			 }
 			 
 			 // Wrong menu name doesn't exist
 			 if(inputGroups.equals(null)){
@@ -116,7 +123,7 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
 			 int j = 0;   	 
 			 for(String group:inputGroups){
 				 tempGroup = new ExpListGroup();	
-				 tempGroup.setId(group); 
+				 tempGroup.setLabel(group); 
 				 for(int i = j;i<inputChildren.length;i++){
 					 if(inputChildren[i].length()==0){		
 						 j = i+1;
@@ -132,6 +139,7 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
 				 list2 = new ArrayList<ExpListChild>(); 
 				 list.add(tempGroup);  
 			 }
+			 // om authority inte är 0 lägg till authority menyn
 		 }catch(Exception e){
 			 AlertDialog.Builder error = new AlertDialog.Builder(context);
 			 error.setTitle(context.getResources().getString(R.string.error_title))
@@ -170,6 +178,40 @@ public class ExpListAdapter extends BaseExpandableListAdapter {
         groups.get(index).setContent(ch);  
         // If implemented in application it might be necessary to add this.notifyDataSetChanged();
     }  
+    
+    public void addAuthority(int authority){	
+    	ExpListGroup authorityGroup = new ExpListGroup();
+    	ArrayList<ExpListChild> content = new ArrayList<ExpListChild>();	
+    	ExpListChild tempChild;  		
+    	if(authority != 0){
+    		try{
+    			// moderator
+    			String[] authorityGroupChildren = context.getResources().getStringArray(R.array.authority_children);
+    			for(String authorityChild:authorityGroupChildren){
+    				if(authorityChild.length()==0 && authority==1){
+    					break;
+    				}else if(!(authorityChild.length()==0)){
+    					tempChild= new ExpListChild();
+    					tempChild.setTag("group");
+    					tempChild.setLabel(authorityChild);
+    					content.add(tempChild);
+    				}
+    			}
+    			authorityGroup.setContent(content);	
+            	authorityGroup.setLabel(context.getResources().getString(R.string.authority_group_title));
+        		groups.add(groups.size()-1, authorityGroup) ;	
+    		}catch(Exception e){
+   			 AlertDialog.Builder error = new AlertDialog.Builder(context);
+   			 error.setTitle(context.getResources().getString(R.string.error_title))
+   			 	  .setMessage(context.getResources().getString(R.string.authority_group_error)+"\n"+ e.getMessage())
+   			 	  .setNeutralButton("Ok", null)
+   			      .create().show();
+    		}
+
+    	}
+
+    }
+    
     
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 // Extend Methods Section - These methods are used by the class itself since it extends BaseExpandableListAdapter, getters methods. and one isChildSelectable method. 

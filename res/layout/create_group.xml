@@ -14,21 +14,30 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
+
 -->
- <!-- The standard layout for information, such as about and helo dialogs -->
+ <!-- The create group dialog layout -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/dialog_scroll_style" >
 
     <LinearLayout style="@style/dialog_linearlayout_style" >
-       <!-- Set text whith a string in class that uses info -->
-        <TextView
-            android:id="@+id/info"            
-            style="@style/dialog_textview_style"
-		 />
 
-        <include
-            android:id="@+id/dialog_back_button"
-            layout="@layout/dialog_back_button" />
+           <TextView
+            android:id="@+id/create_group_subtitle"
+			style="@style/dialog_textview_style"
+            android:text="@string/set_group_name_subtitle" />
+        
+        <include android:id="@+id/user_text_input"
+            	 layout="@layout/dialog_text_input" />
+ 
+        <Button
+    		android:id="@+id/create_group_button"
+			style="@style/dialog_button_style"  
+    		android:text="@string/create_group_button"
+    	></Button>
+        
+       <include android:id="@+id/dialog_back_button"
+                layout="@layout/dialog_back_button" />
     </LinearLayout>
-
+        
 </ScrollView>

@@ -36,7 +36,21 @@ public class Protocol {
 	public boolean attemptCreationOfAccount(String username, String password, String firstName, String surname)/* throws Exception*/{
 		
 		
-		return true;
+		return true; // if denied it should mean that the user name was taken
+	}
+
+	public void attemptLogin(String username,String password) throws Exception {
+		
+		// login_account_dont_exist
+		// database error?
+		// error failed to connect to server
+		// error wrong password or user name?
+		
+	}
+
+	public boolean attemptCreateGroup(String string) {
+		
+		return true; // should return false if groupname is taken
 	}
 	
 }

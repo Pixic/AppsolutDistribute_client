@@ -14,7 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 -->
-
+ <!-- The create account dialog layout -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/dialog_scroll_style" >
 
@@ -22,72 +22,59 @@
 
         <TextView
             android:id="@+id/create_username_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+			style="@style/dialog_textview_style"
             android:text="@string/username" />
-
-        <include
-            android:id="@+id/user_text_input"
-            layout="@layout/dialog_text_input" />
+		<!-- username -->
+		<EditText
+            android:id="@+id/username_text_input"
+            style="@style/dialog_edittext_style"
+            android:inputType="text" >
+        </EditText>
+		
 
         <TextView
             android:id="@+id/create_password_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+			style="@style/dialog_textview_style"
             android:text="@string/password" />
 	<!-- Includes two merged password layouts -->
         <include layout="@layout/dialog_double_password" />
-
         <TextView
             android:id="@+id/firstname_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+			style="@style/dialog_textview_style"
             android:text="@string/first_name" />
 
         <EditText
             android:id="@+id/firstname_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:singleLine="true" >
+            style="@style/dialog_edittext_style"
+            android:inputType="text" >
         </EditText>
 
         <TextView
             android:id="@+id/surname_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+			style="@style/dialog_textview_style"
             android:text="@string/surname"
             />
 
         <EditText
             android:id="@+id/surname_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:singleLine="true" >
+            style="@style/dialog_edittext_style"
+            android:inputType="text">
         </EditText>
 
         <TextView
             android:id="@+id/email_subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+			style="@style/dialog_textview_style"
             android:text="@string/email" />
 
         <EditText
             android:id="@+id/email_text_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:singleLine="true" >
+            style="@style/dialog_edittext_style"
+            android:inputType="textEmailAddress" >
         </EditText>
 
         <Button
             android:id="@+id/create_account_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+			style="@style/dialog_button_style"  
             android:text="@string/create_account_button"
              />
 

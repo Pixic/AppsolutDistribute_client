@@ -13,7 +13,7 @@
    limitations under the License.
 
  -->
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Strings made/named by default -->
     <string name="app_name">AppsolutDistribute</string>
     <string name="menu_settings">Settings</string>
@@ -23,16 +23,16 @@
 	<string name="error_title">Error:</string>
 	<string name="error_on_creating_expandable_list">Error on creating an expandablelist!</string>
 	<string name="error_empty_menu">Varning! This menu is empty</string>
+	<string name="authority_group_error">Failed to create Authority group correctly</string>
 	
-    <!-- Title strings -->
+    <!-- Exit dialog-->
     <string name="exit_title">Are you sure you want to leave?</string>
-    <string name="settings_title">Settings</string>
-  
- 
+    
 	
     <!-- Strings for Settings Dialog -->
+	<string name="settings_title">Settings</string>
 	
-	<!-- Strings used for the create account and login dialogs  -->	
+	<!-- Strings used by the create account and login dialogs (includes goOnline method) -->	
 	<string name="username">Username: </string> <!-- Strings for Dialog subtitles  -->
 	<string name="password">Password: </string>
 	<string name="first_name">First name: </string>
@@ -40,18 +40,95 @@
 	<string name="email">Email: </string>
 	<string name="create_account_button">Create account</string> <!-- Strings for Dialog buttons  -->	
 	<string name="login_button">Login</string>
-	<string name="account_error_no_user_name">Set Username!</string> <!-- Errors  -->
+	<string name="account_error_no_user_name">Enter Username!</string> <!-- Errors  -->
+	<string name="account_error_no_password">Enter Password!</string>
 	<string name="account_error_short_user_name">Username is to short, must be atleast 4 characters!</string>
 	<string name="account_error_long_user_name">Username is to long, maximum length is 20 characters!</string>
 	<string name="account_error_short_password">Password is to short, must be atleast 6 characters!</string>
 	<string name="account_error_long_password">Password is to long, maximum length is 20 characters!</string>
-	<string name="account_error_password_match">Password is incorrect!</string>
-	<string name="account_error_first_name">To long first name!</string>
-	<string name="account_error_surname">To long last name!</string>
-	<string name="account_error_email">To long email-address!</string>		
+	<string name="account_error_password_match">Passwords do not match!</string>
+	<string name="account_error_first_name">To long first name, maximum length is 20 characters!</string>
+	<string name="account_error_surname">To long last name, maximum length is 20 characters!</string>
+	<string name="account_error_email">To long email-address, maximum length is 40 characters!</string>	
+	<string name="account_error_not_valide_email">Your email address is not valid!</string>	 <!-- check if these works/ are applied -->
+	<string name="account_error_username_taken">This username is already taken!</string><!-- check if these works/ are applied -->
+	<string name="create_account_success">Account created</string>
+	<string name="failed_to_create_account">Failed to create account!</string> <!-- check if these works/ are applied -->
+	<string name="failed_to_login">Failed to login</string> <!-- check if these works/ are applied -->
+	<string name="failed_to_go_online">Failed to go online!</string> <!-- check if these works/ are applied -->
+
+		
+	<string name="user_online_message">Online</string>
+	<!-- logout -->
+	<string name="user_offline_message">Offline</string>
+	<string name="go_offline_title">Go Offline?</string>
+	
+	<!-- Strings used by create group dialog -->
+	<string name="set_group_name_subtitle">Set Group Name: </string>
+	<string name="create_group_button">Create Group</string>
+	<string name="create_group_error_no_name">Set group Name!</string>
+	<string name="create_group_error_name_to_short">The group name is to short, must be atleast 4 characters!</string>
+	<string name="create_group_error_name_to_long">The group name is to long, maximum length is 20 characters!</string>
+	<string name="create_group_error_name_taken">This group name is already taken!</string>  <!-- check if these works/ are applied -->
+	<string name="create_group_success">Group Created</string>
+	<string name="create_group_error_failed">Failed to create group</string><!-- check if these works/ are applied -->
+	
+	<!-- Change group name -->
+	<string name="change_group_name_button">Change Group Name</string>
+	
+	<string name="change_group_name_subtitle">Change Group Name: </string> 
+	<string name="change_group_name_password_check_subtitle">Password Confirmation: </string>
+	
+	<!-- Strings used by change user information -->
+	<string name="change_userinfo_button">Change User Information</string>
+	
+	<string name="change_userinfo_username_text">Change Username: </string>	
+	<string name="change_userinfo_username_input_to_short">The new username is to short, must be atleast 4 characters!</string>
+	<string name="change_userinfo_username_input_to_long">The new username is to long, maximum length is 20 characters!</string>	
+	<string name="change_userinfo_first_name_text">Change First Name: </string>
+	<string name="change_userinfo_first_name_input_to_long">The new first name is to long, maximum length is 20 characters!</string>
+	<string name="change_userinfo_surname_text">Change Surname: </string>	
+	<string name="change_userinfo_surname_input_to_long">The new surname is to long, maximum length is 20 characters!</string>
+	<string name="change_userinfo_email_text">Change Email: </string>	
+	<string name="change_userinfo_email_input_to_long">The new username is to long, maximum length is 40 characters!</string>
+		
+	<string name="change_userinfo_success">You have changed your user information</string>
+	<string name="change_userinfo_failed"></string>	
+	
+	<string name="change_userinfo_email_not_valid"></string><!-- Implemented later, maybe -->
+	
+	<!-- Strings used by change password -->
+	<string name="change_password_button">Change Password</string>
+	<string name="current_password_text">Current Password:</string>
+	<string name="new_password_text">Set Your New Password:</string>
+	
+	<string name="change_error_no_current_password">Enter Your Current Password!</string>
+	<string name="change_error_current_to_short_password">Current Password is to short, must be atleast 4 characters!</string>
+	<string name="change_error_current_to_long_password">Current Password is to long, maximum length is 20 characters!</string>
+
+	<string name="change_error_no_new_password">Enter Your New Password!</string>
+	<string name="change_error_new_to_short_password">New Password is to short, must be atleast 4 characters!</string>
+	<string name="change_error_new_to_long_password">New Password is to long, maximum length is 20 characters!</string>	
+	<string name="change_error_new_passwords_mismatch">New passwords do not match!</string>
+	
+	<string name="change_error_failed_to_change_password">Failed to change to a new password!</string>
+	<string name="change_error_wrong_current_password">Enter this accounts current password!</string>
+	<string name="change_password_success">You have changed your password</string> 
+	
+	
+	<!-- Strings used by end account dialog -->
+	<string name="end_account_button">End Account</string>
+	<string name="end_account_no_passwords">If you realt want to end the account, confirm it by enter your current password twice</string>
+	<string name="end_account_password_to_short">Password is to short, must be atleast 6 characters.</string>
+	<string name="end_account_password_to_long">Password is to long, maximum length is 20 characters.</string>
+	<string name="end_account_password_mismatch">Passwords do not match!</string>
+	<string name="end_account_last_chance">Do you want to end your account?</string>
+	<string name="end_account_success">Account Ended</string>
+	<string name="end_account_failed">Failed to end account!</string>
+	
 	
 	<!-- Strings used by several Dialogs -->
-	<string name="done">Done</string>
+	<string name="done">Done</string> <!-- is not applied -->
 	<string name="yes">Yes</string>
 	<string name="no">No</string>
 	<string name="back">Back</string>
@@ -73,6 +150,7 @@
     <!-- Strings to complement "title_activity_main", when in a different ExpandableListView menu -->
     <string name="add_help_tile">: Help</string>
     <string name="add_online_tile">: Online</string>
+    <!-- The rest of the titles will be managed by the groups name and only needs an extra : -->
        
     <!-- ExpandableListView: Consits of two string arrays one for the group and one for the 
     	 children. The Childrens string array has a divider which is an empty string, has the 
@@ -95,7 +173,7 @@
    	 <item>Help</item>
    	 <item>Exit</item>
    </string-array>
-   <!-- Fist Help menu, will contain the first chapter of the user's manual -->
+   <!-- Fist Help menu, will contain the first part of the user's manual -->
     <string-array name = "help_groups1" >
 	    <item>1. General</item>				
 	    <item>2. Connect To Server</item>  			
@@ -129,7 +207,7 @@
 		<item>Join Group</item>		
 		<item>Group Invites</item>							
    	 	<item></item> 						
-   	 	<item>Change Username</item>					
+   	 	<item>Change User Information</item>					
    	 	<item>Change Password</item>
    	 	<item>End Account</item>
    	 	<item></item>
@@ -138,7 +216,7 @@
    	 	<item>Help</item>	 	
     </string-array>
     
-	 <!-- Second Help menu, will contain the second chapter of the user's manual -->
+	 <!-- Second Help menu, will contain the second part of the user's manual -->
 	<string-array name = "help_groups2" >
 	    <item>3. Manage Groups</item>				
 	    <item>4. Manage Account</item>  			
@@ -151,33 +229,194 @@
 		<item>3.3. Join Group</item>	
 		<item>3.4. Answer Group Invites</item>							
    	 	<item></item> 						
-   	 	<item>4.1. Change Username</item>					
+   	 	<item>4.1. Change User Information</item>					
    	 	<item>4.2. Change Password</item>
    	 	<item>4.3. End Account</item>
    	 	<item></item> 	
    	 	<item>About</item>
    	 	<item>Back</item>	
     </string-array>
-   
+    
+	 <!-- Group menu, will contain user options and a third help menu  -->
+	<string-array name = "group_groups" >
+	    <item>Group Options</item>				
+	    <item>Group Features</item>  			
+	    <item>Options</item>  				    
+	</string-array>
+	
+	<string-array name = "group_children" >
+		<item>Group Members</item>	
+		<item>Group Info</item>
+		<item>Leave Group</item>
+		<item></item>	
+		<item>Chatt</item>						
+   	 	<item></item> 	
+   	 	<item>About</item>
+   	 	<item>Help</item>
+   	 	<item>Back</item>	
+    </string-array>	
+    
+	<!-- Third Help menu, will contain the third part of the user's manual -->
+	<string-array name = "help_groups3" >
+	    <item>5. Group Options</item>				
+	    <item>6. Group Features</item>  
+	    <item>7. Moderator Authority</item>	
+	    <item>8. Admin Authority</item>			
+	    <item>Options</item>  				    
+	</string-array>
+	
+	<string-array name = "help_children3" >
+		<item>5.1. Group Members</item>
+		<item>5.2. Group Info</item>
+		<item>5.3. Leave Group</item>
+		<item></item>	
+		<item>6.1. Chat</item>						 						
+   	 	<item></item> 	
+   	 	<item>7.1. What Is A Moderator?</item>
+   	 	<item>7.2. Send Invites</item>
+   	 	<item>7.3. Answer Join Request</item>
+   	 	<item>7.4. Add Feature</item>
+   	 	<item>7.5. Remove Feature</item>
+   	 	<item>7.6. Remove Group Member</item>
+   	 	<item></item> 
+   	 	<item>8.1. What Is A Group Admin?</item>	
+   	 	<item>8.2. Change Group Name</item>	
+   	 	<item>8.3. Set Group Info</item>
+   	 	<item>8.4. Promote User</item>	
+   	 	<item>8.5. Demote User</item>	
+   	 	<item>8.6. End Group</item>	
+   	 	<item></item> 
+   	 	<item>About</item>
+   	 	<item>Back</item>	
+    </string-array>
+	
+	
+	
 	<string name="error_service_not_made">Service not made yet!</string>	
 	<!-- help menu options (user manual) and about -->
-	<string name="about_text"></string>
-	<string name="help1_1">1.1. Help</string>
-	<string name="help1_2"></string>
-	<string name="help1_3"></string>
-	<string name="help1_4"></string>
+	<string name="about_text"> © Stefan Arvidsson 2012 </string>
+	<!-- 1.1. General, help text -->
+	<string name="help1_1"> <!--  1.1. Help -->
+	   
+	</string>
+	<string name="help1_2"> <!-- 1.2. About -->
+	    Information about copyright, license and who made the game. \n 
+	</string>
+	<string name="help1_3"><!-- 1.3. Settings -->
+	    
+	</string>
+	<string name="help1_4"><!-- 1.4. Navigation -->
 	
-	<string name="help2_1"></string>
-	<string name="help2_2"></string>	
-	<string name="help2_3"></string>
+	</string>
+	<!-- 2. Connect To Server, help text -->
+	<string name="help2_1"><!-- 2.1 Create Account -->
 	
-	<string name="help3_1"></string>
-	<string name="help3_2"></string>
-	<string name="help3_3"></string>
-	<string name="help3_4"></string>
+	</string>
+	<string name="help2_2"><!-- 2.2 Login -->
+	    
+	</string>	
+	<string name="help2_3"><!-- 2.3. Select Server -->
+	    
+	</string>
+	<!-- 3. Manage Groups, help text -->
+	<string name="help3_1"><!-- 3.1. My Groups -->
+	    
+	</string>
+	<string name="help3_2"><!-- 3.2. Create Group -->
+	    
+	</string>
+	<string name="help3_3"><!-- 3.3. Join Group -->
+	    
+	</string>
+	<string name="help3_4"><!-- 3.4. Answer Group Invites -->
+	    
+	</string>
+	<!-- 4. Manage Account, help text -->
+	<string name="help4_1"><!-- 4.1. Change User Information -->
+	    
+	</string>
+	<string name="help4_2"><!-- 4.2. Change Password -->
+	    
+	</string>
+	<string name="help4_3"><!-- 4.3. End Account -->
+	    
+	</string>
+	<!-- 5. Group Options, help text -->
+	<string name="help5_1"><!-- 5.1. Group Members -->
+	    
+	</string>
+	<string name="help5_2"><!-- 5.2. Group Info -->
+	    
+	</string>
+	<string name="help5_3"><!-- 5.3. Leave Group -->
+	    
+	</string>
+	<!--  -->
+	<string name="help6_1"><!-- 6.1. Chat -->
+	    
+	</string>
 	
-	<string name="help4_1"></string>
-	<string name="help4_2"></string>
-	<string name="help4_3"></string>
+	 <!-- 7. Moderator Authority, help text -->	
+	<string name="help7_1"><!-- 7.1. What Is A Moderator? -->
+	    
+	</string>
+	<string name="help7_2"><!-- 7.2. Send Invites -->
+	
+	</string> 
+	<string name="help7_3"><!-- 7.3. Answer Join Request -->
+	
+	</string>
+	<string name="help7_4"><!-- 7.4. Add Feature -->
+	    
+	</string>	
+	<string name="help7_5"><!-- 7.5. Remove Feature -->
+	    
+	</string>
+	<string name="help7_6"><!-- 7.6. Remove Group Member -->
+	    
+	</string>
+	
+	<!-- Admin Authority, help text -->
+	<string name="help8_1"><!-- 8.1. What Is A Group Admin? -->
+	    Has the all the moderator authorities and some special group admin authorities.
+	</string> 
+	<string name="help8_2"><!-- 8.2. Change Group Name -->
+	    
+	</string>
+	<string name ="help8_3"><!-- 8.3. Set Group Info -->
+	    
+	</string>
+	<string name="help8_4"><!-- 8.4. Promote User -->
+	    
+	</string>
+	<string name="help8_5"><!-- 8.5. Demote User -->
+	    
+	</string>
+	<string name="help8_6"><!-- 8.6. End Group -->
+	    test
+	</string>
+   	
+	
+	
+	<!-- Special authority expandable list group -->
+	<string name="authority_group_title">Authority</string>
+
+	
+	<string-array name = "authority_children">
+	    <!-- moderator authority -->
+	    <item>Send Invite</item>
+    	<item>Answer Join Request</item>
+    	<item>Add Feature</item><!-- NO time, Not implemented -->
+    	<item>Remove Feature</item><!-- NO time, Not implemented -->
+    	<item>Remove Group Member</item>
+    	<item></item> <!-- seperator for admin authority -->
+    	<item>Change Group Name</item>
+    	<item>Set Group Info</item>
+    	<item>Promote User</item>
+    	<item>Demote User</item>
+    	<item>End Group</item>
+	</string-array>
+	
+	
 	
 </resources>

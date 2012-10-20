@@ -14,43 +14,38 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
+
 -->
- <!-- The login dialog layout -->
+ <!-- The change the group name dialog layout -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/dialog_scroll_style" >
 
     <LinearLayout style="@style/dialog_linearlayout_style" >
 
-        <TextView
-            android:id="@+id/username_subtitle"
+           <TextView
+            android:id="@+id/change_group_subtitle"
 			style="@style/dialog_textview_style"
-            android:text="@string/username" />
-
-        <include
-            android:id="@+id/user_text_input"
-            layout="@layout/dialog_text_input" />
-
-        <TextView
-            android:id="@+id/password_subtitle"       
+             android:text="@string/change_group_name_subtitle"/> 
+        
+        <include android:id="@+id/user_text_input"
+            	 layout="@layout/dialog_text_input" />
+        
+           <TextView
+            android:id="@+id/change_group_password_check_subtitle"
 			style="@style/dialog_textview_style"
-            android:text="@string/password" />
-
+             android:text="@string/change_group_name_password_check_subtitle"/>         
+        
         <include android:id="@+id/password"
             	 layout="@layout/dialog_password"/>
-
-          <Button
-            android:id="@+id/login_button"
+ 
+        <Button
+    		android:id="@+id/change_group_name_button"
 			style="@style/dialog_button_style"  
-            android:text="@string/login_button"
-             />
-
-        <include
-            android:id="@+id/dialog_back_button"
-            layout="@layout/dialog_back_button" />
+    		android:text="@string/change_group_name_button"
+    	></Button>
         
-        
-        
-        
+       <include android:id="@+id/dialog_back_button"
+                layout="@layout/dialog_back_button" />
     </LinearLayout>
-
+        
 </ScrollView>

@@ -14,15 +14,22 @@
    limitations under the License.
 
  -->
- <!-- Used in every dialog to make sure that the user can navigate back -->
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/dialog_back_button"
-    style="@style/dialog_button_style"  
-    android:layout_gravity="bottom"
-	android:text="@string/back" 
-    ></Button>
+  <!-- The end account layout -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/dialog_scroll_style" >
 
-
-
-
+    <LinearLayout style="@style/dialog_linearlayout_style" >
     
+     <include layout="@layout/dialog_double_password" />
+    
+     <Button
+    		android:id="@+id/end_account_button"
+			style="@style/dialog_button_style"  
+    		android:text="@string/end_account_button"
+     ></Button>
+     
+     <include android:id="@+id/dialog_back_button"
+              layout="@layout/dialog_back_button" />
+
+	</LinearLayout>
+</ScrollView>
