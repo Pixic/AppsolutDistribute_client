@@ -4,9 +4,9 @@ package ad.controller.protocol;
  * Protocol 
  * 
  * 
- * @author Stefan Arvidsson
+ * @author Anton Kostet
  *
- * Copyright [2012] [Stefan Arvidsson]
+ * Copyright [2012] [Anton Kostet]
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

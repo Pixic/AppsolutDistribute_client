@@ -186,13 +186,36 @@
 	<string name="answer_request_failed">Failed to add member</string> <!-- NOT IMPLEMENTED YET -->
 	<string name="answer_request_success">A new member joined the group</string>
 	
+
+	
 	<!-- Strings used by Group Members dialog -->
 	<string name="group_member_list_title">Group Members: </string>
 	
-	<!-- Strings used by searchable list dialog layout -->
+	<!-- Strings used by searchable list dialog layout (several layouts) -->
 	<string name="search_subtitle">Search: </string>
 	<string name="search_button">Search</string>
+	<string name="search_target_not_found">Search target not found: </string>
 	<string name="refresh_button">Refresh</string>
+	
+	<!-- Strings used by my group -->
+	<string name="my_group_list_title">Joined Groups: </string>
+	<string name="my_group_failed_to_enter">Failed to enter the group!</string> <!-- NOT IMPLEMENTED YET -->
+	
+	<!-- Strings used by join group -->
+	<string name="join_group_list_title">Available Groups:</string>
+	<string name="join_group_failed_send">Failed to successfully send join request!</string> <!-- NOT IMPLEMENTED YET -->
+	<string name="join_group_success_send">The requst was successfully sent to: </string>
+
+	<!-- Strings used by Send Invite dialog (moderatot & admin) -->
+	<string name="send_invite_list_title"></string>
+	
+	<!-- Strings used by Remove Group Member dialog(m&a) -->
+	<string name="remove_group_member_title">Select User To Be Removed From Group: </string>
+	<string name="remove_group_are_you_sure_title">Do you want to remove this group member?</string>
+	<string name="remove_group_are_you_sure_message">Member: </string>
+	
+	<string name="remove_group_member_failed">Failed to remove group member</string> <!-- NOT IMPLEMENTED YET -->
+	<string name="remove_group_member_success">Removed member from group: </string>
 	
 	<!-- Strings used by several Dialogs -->
 	<string name="done">Done</string> <!-- is not applied -->

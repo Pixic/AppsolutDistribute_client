@@ -29,15 +29,25 @@ import android.content.Context;
  */
 public class CustomDialog extends Dialog {
 
-	
+	private String title;
 	public CustomDialog(Context context, int layout) {
 		super(context, R.style.customdialog);
 		this.setContentView(layout);
 		// TODO Auto-generated constructor stub
 	}
-
-	public void addListComponent(){
-		
+	/**
+	 * rememberTitle - Used to store the current dialog title when a list dialog is created (needed for refreshList)
+	 * @param title - The current dialog's title
+	 */
+	public void rememberTitle(String title){
+		this.title=title;
+	}
+	/**
+	 * getTitle - Gets the current dialog's title, used by refreshList 
+	 * @return String - The current dialog's title
+	 */
+	public String getTitle(){
+		return this.title;
 	}
 	
 	

@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -65,7 +66,8 @@ import android.content.Intent;
  * 				
  * Standard Operation: goToMenu, onBack, logout, onExit 
  * 	
- * Build Dialog: createNewDialog, createDialogButton, setInfoText, createListDialog (onitemclick is here)
+ * Build Dialog: createNewDialog, createDialogButton, setInfoText, fetchListFromServer, 
+ * 				 createListDialog (onitemclick is here)
  * 
  * Dialog OnClick/Selection: onClick  
  * 
@@ -77,7 +79,9 @@ import android.content.Intent;
  * 
  * Dialog Group Operations: endGroup, leaveGroup, changeGroupName, setGroupInfo
  * 
- * Dialog List Operations: answerGropInvites, answerJoinGroupRequest, myGroups
+ * Dialog List Operations: answerGropInvites, answerJoinGroupRequest, removeUser, refreshList,
+ * 						   searchList, myGroups, joinGroup, sendInvite
+ *   
  * 
  * @author Stefan Arvidsson 
  * 
@@ -312,26 +316,14 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	 */
 	public void onlineMenu(String label) {
 
-			if (label.equals(getResources().getStringArray(R.array.online_children)[0])) { // My Groups
-				// Get my group list from server, remove and replace the test input bellow				
-				list = new ArrayList<String>();// test
-					list.add("hello world");
-					list.add("tjena");		
+			if (label.equals(getResources().getStringArray(R.array.online_children)[0])) { // My Groups	 
 				createListDialog(label, R.layout.my_groups);
-				// test, Behöver skicka in gruppens namn från ListView (outdated)
-//				CharSequence title = new String(": " + label);
-//				goToMenu("group", title);
 			} else if (label.equals(getResources().getStringArray(R.array.online_children)[1])) { // Create Group
+				list = new ArrayList<String>(); // empty list to be sure there are no other group members
 				createNewDialog(label, R.layout.create_group);
-			} else if (label.equals(getResources().getStringArray(R.array.online_children)[2])) { // Join Group
-			//	createNewDialog(label, R.layout.join_groups);
+			} else if (label.equals(getResources().getStringArray(R.array.online_children)[2])) { // Join Group					
+				createListDialog(label, R.layout.join_group);
 			} else if (label.equals(getResources().getStringArray(R.array.online_children)[3])) { // Answer Group Invites
-				// Get group invite list from server, remove and replace the test input bellow
-				list = new ArrayList<String>();
-				for(int i=0;i<30;i++){
-					list.add("hello world");
-					list.add("tjena");
-				}				
 				createListDialog(label, R.layout.answer_invites);
 /*group 2*/	} else if (label.equals(getResources().getStringArray(R.array.online_children)[5])) { // Change User Information
 				createNewDialog(label, R.layout.change_user_information);
@@ -388,18 +380,12 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	 * @param label 
 	 */
 	public void groupMenu(String label){
-			if (label.equals(getResources().getStringArray(R.array.group_children)[0])) { // Group members
-				// Get group member list from server, remove and replace the test input bellow
-				list = new ArrayList<String>();// test
-				for(int i=0;i<30;i++){
-					list.add("isene");
-					list.add("michael");
-					list.add("anton");
-				}				
+			if (label.equals(getResources().getStringArray(R.array.group_children)[0])) { // Group members   
 				createListDialog(label, R.layout.group_member_list);
 			}else if(label.equals(getResources().getStringArray(R.array.group_children)[1])){ // Group Info
 				createNewDialog(label, R.layout.info);
 				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
+				// hint of whats to be here:
 				//((TextView) custom.findViewById(R.id.info)).setText(getResources().getText(R.string.help5_1));// Change the getResources().getText(R.string.help5_1) to data from server.
 			}else if(label.equals(getResources().getStringArray(R.array.group_children)[2])){ // Leave Group
 				leaveGroup();
@@ -414,32 +400,26 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 				onBack();
 			}
 			// Authorities Moderator & admin
-/*m&a*/		else if(label.equals(getResources().getStringArray(R.array.authority_children)[0])){ // Send Invite
-				
-			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[1])){ // Answer Join Request
-				// Get Join request list from server, remove and replace the test input bellow
-				list = new ArrayList<String>();// test
-				for(int i=0;i<30;i++){
-					list.add("mr Awesome");
-					list.add("harry");
-				}				
+/*m&a*/		else if(label.equals(getResources().getStringArray(R.array.authority_children)[0])){ // Send Invite 	
+					createListDialog(label, R.layout.send_invite);
+			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[1])){ // Answer Join Request		
 				createListDialog(label, R.layout.answer_join_request);
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[2])){ // Add Feature ... NO time, Not implemented
 				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[3])){ // Remove Feature ... NO time, Not implemented
 				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[4])){ // Remove Group Member
-				
+				createListDialog(label, R.layout.remove_user_from_group);
 				/*admin only authorities*/ 
 /*a*/		}else if(label.equals(getResources().getStringArray(R.array.authority_children)[6])){ // Change Group Name
 				createNewDialog(label, R.layout.change_group_name);
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[7])){ // Set Group Info
 				createNewDialog(label, R.layout.set_group_info);
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[8])){ // Promote User
-				//createNewDialog(label, R.layout.);
+				//createNewDialog(label, R.layout.); //Layout not made
 				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[9])){ // Demote User
-				//createNewDialog(label, R.layout.);
+				//createNewDialog(label, R.layout.); // Layout not made
 				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[10])){ // End Group
 				createNewDialog(label, R.layout.end_group);			
@@ -588,15 +568,11 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 				backAppTitle.pop();		
 				CharSequence titleAdd = new String(getResources().getString(R.string.title_activity_main) + backAppTitle.peek().toString() );
 				setTitle(  titleAdd );
-			}
-				
+			}				
 		} catch (Exception e) {
 			setTitle(getResources().getString(R.string.title_activity_main));
 		}
-
-
-	}
-	
+	}	
 
 	/**
 	 * logout - NOT COMPLETE YET, needs comunication with server
@@ -679,12 +655,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		}else if (layout == R.layout.create_group){
 			createDialogButton(R.id.create_group_button);
 			((EditText) custom.findViewById(R.id.user_text_input)).setFilters(filters);
-		}
-//		else if(layout == R.layout.join_groups){
-//			
-//		}
-
-		else if(layout == R.layout.change_user_information){
+		}else if(layout == R.layout.change_user_information){
 			createDialogButton(R.id.change_userinfo_button);
 			((EditText) custom.findViewById(R.id.change_username_text_input)).setFilters(filters);
 			((EditText) custom.findViewById(R.id.change_first_name_text_input)).setFilters(filters);
@@ -732,6 +703,54 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		TextView text = (TextView) custom.findViewById(R.id.info);
 		text.setText(getResources().getText(textId));
 	}
+	/**
+	 * fetchListFromServer - Fetches the list content from server. 
+	 * @param id - An int with the layouts id, used to determine which list to get from the server.
+	 */
+	public void fetchListFromServer(int id){
+		list = new ArrayList<String>(); // test
+		if(id == R.layout.answer_invites){
+			// Get group invite list from server, remove and replace the test input bellow
+			list = new ArrayList<String>();
+			for(int i=0;i<30;i++){
+				list.add("groupI@"+i);
+			}			
+		}else if(id == R.layout.answer_join_request){
+			// Get Join request list from server, remove and replace the test input bellow
+				list.add("mr_Awesome");
+				list.add("harry");
+		}else if(id == R.layout.group_member_list){
+			// Get group member list from server, remove and replace the test input bellow		
+				list.add("stefan");
+				list.add("isene");
+				list.add("michael");
+				list.add("anton");
+				list.add("harry");			
+		}else if(id == R.layout.my_groups){
+			// Get my group list from server, remove and replace the test input bellow				
+			list.add("helloWorld");
+			list.add("tjena");		
+		}else if(id == R.layout.join_group){
+			// Get join group list from server, remove and replace the test input bellow					
+			for(int i=0;i<30;i++){
+				list.add("groupJ@"+i);
+			}	
+		}else if(id == R.layout.send_invite){
+			// Get user list from server, remove and replace the test input bellow	
+			for(int i=0;i<30;i++){
+				list.add("user_"+i);
+			}				
+		}else if(id == R.layout.remove_user_from_group){
+			// Get group member list from server, remove and replace the test input bellow		
+			list.add("stefan");
+			list.add("isene");
+			list.add("michael");
+			list.add("anton");
+			list.add("harry");	
+		}
+		
+	}
+	
 	
 	/**
 	 * createListDialog - Creates the dialogs that have a list.
@@ -741,51 +760,90 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	public void createListDialog(String title, int layout){
 		custom = new CustomDialog(MainActivity.this, layout);
 		custom.setTitle(title);
+		custom.rememberTitle(title);
+		fetchListFromServer(layout);
 		listview =(ListView)custom.findViewById(R.id.listview);
 		listview.setAdapter(new ArrayAdapter<String>(this, R.layout.dialog_list_row,list));
+
 		OnItemClickListener listListener = null;
 		if(layout == R.layout.answer_invites){
 			 ((TextView) custom.findViewById(R.id.list_subtitle)).setText(R.string.answer_invite_list_title);
-			   listListener= new OnItemClickListener(){
+			 listListener= new OnItemClickListener(){
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
 					// TODO Auto-generated method stub
 					Toast.makeText(getBaseContext(),list.get(arg2), Toast.LENGTH_LONG).show();
-					answerGropInvites(list.get(arg2), arg2);				
-					
+					answerGropInvites(list.get(arg2), arg2);									
 				}
 			};
 		}else if(layout == R.layout.answer_join_request){
 			((TextView) custom.findViewById(R.id.list_subtitle)).setText(R.string.answer_join_request_list_title);
-			   listListener= new OnItemClickListener(){
+			listListener= new OnItemClickListener(){
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
 					// TODO Auto-generated method stub
 					Toast.makeText(getBaseContext(),list.get(arg2), Toast.LENGTH_LONG).show();
-					answerJoinGroupRequest(list.get(arg2), arg2);		
-					
+					answerJoinGroupRequest(list.get(arg2), arg2);						
 				}
 			};
 		}else if(layout == R.layout.group_member_list){
 			((TextView) custom.findViewById(R.id.list_subtitle)).setText(R.string.group_member_list_title);
-			   listListener= new OnItemClickListener(){
+			listListener= new OnItemClickListener(){
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
 					// TODO Auto-generated method stub
 					Toast.makeText(getBaseContext(),list.get(arg2), Toast.LENGTH_LONG).show();		
 				}
 			};
-		}else if(layout == R.layout.my_groups){
-			   listListener= new OnItemClickListener(){
+		}else if(layout == R.layout.my_groups){		
+			((EditText) custom.findViewById(R.id.user_text_input)).setFilters(filters);
+			createDialogButton(R.id.dialog_search_button);
+			createDialogButton(R.id.dialog_refresh_button);
+			((TextView) custom.findViewById(R.id.searchable_list_subtitle)).setText(R.string.my_group_list_title);
+			 listListener= new OnItemClickListener(){
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
 					// TODO Auto-generated method stub
-					myGroups(list.get(arg2));
-					//Toast.makeText(getBaseContext(),list.get(arg2), Toast.LENGTH_LONG).show();		
+					myGroups(list.get(arg2), arg2);
+					Toast.makeText(getBaseContext(),list.get(arg2), Toast.LENGTH_LONG).show();		
 				}
 			};
+		}else if(layout == R.layout.join_group){ 
+			((EditText) custom.findViewById(R.id.user_text_input)).setFilters(filters);
+			createDialogButton(R.id.dialog_search_button);
+			createDialogButton(R.id.dialog_refresh_button);
+			((TextView) custom.findViewById(R.id.searchable_list_subtitle)).setText(R.string.join_group_list_title);
 			
+			 listListener= new OnItemClickListener(){
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					joinGroup(list.get(arg2), arg2); //join_group_failed_send 		
+				}
+			};	
+		}else if(layout == R.layout.send_invite){
+			((EditText) custom.findViewById(R.id.user_text_input)).setFilters(filters);
+			createDialogButton(R.id.dialog_search_button);
+			createDialogButton(R.id.dialog_refresh_button);
+			((TextView) custom.findViewById(R.id.searchable_list_subtitle)).setText(R.string.send_invite_list_title);
 			
+			 listListener= new OnItemClickListener(){
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					sendInvite(list.get(arg2), arg2); //join_group_failed_send 		
+				}
+			};	
+		}else if(layout == R.layout.remove_user_from_group){
+			((TextView) custom.findViewById(R.id.list_subtitle)).setText(R.string.remove_group_member_title);
+			
+			 listListener= new OnItemClickListener(){
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					removeUser(list.get(arg2), arg2); //remove_group_member_failed 		
+				}
+			};	
 		}
 	
 		listview.setOnItemClickListener(listListener);
@@ -816,19 +874,23 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 				createAccount();
 			}else if(v.equals(custom.findViewById(R.id.login_button))){
 				login();
+			}else if(v.equals(custom.findViewById(R.id.dialog_refresh_button))){
+				refreshList();
+			}else if(v.equals(custom.findViewById(R.id.dialog_search_button))){
+				searchList();			
 			}else if(v.equals(custom.findViewById(R.id.create_group_button))){
 				createGroup();
 			}else if(v.equals(custom.findViewById(R.id.change_userinfo_button))){
 				changeUserInfo();
 			}else if(v.equals(custom.findViewById(R.id.change_password_button))){ // move this to last later on
 				changePassword();
-			}else if(v.equals(custom.findViewById(R.id.end_account_button))){ 
-				endAccount();
 			}else if(v.equals(custom.findViewById(R.id.change_group_name_button))){
 				changeGroupName();
 			}else if(v.equals(custom.findViewById(R.id.set_group_info_button))){
 				setGroupInfo();
-			}else if(v.equals(custom.findViewById(R.id.end_group_button))){
+			}else if(v.equals(custom.findViewById(R.id.end_account_button))){ 
+				endAccount();
+			}else if(v.equals(custom.findViewById(R.id.end_group_button))){		//	 
 				endGroup();
 			}
 			
@@ -1005,6 +1067,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			}
 			
 			if(protocol.attemptCreateGroup(groupName.getText().toString())){
+				// Attempt add group in my groups..
 				// Goes directly to the created group
 				CharSequence s= new String(": "+groupName.getText().toString());
 				goToMenu("group",s);
@@ -1302,11 +1365,16 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 // Dialog List Operation Section - methods used by one list dialog item. --------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------------------------------------		
 	
+
+	
+	
+	
 	/**
+	 * NOT COMPLETE
 	 * answerGropInvites - Gives the user an AlertDialog that presents the option to join
 	 * 					   the group or if the user 
-	 * @param groupName - A final String, the name of the group which to join or not.
-	 * @param position - A final int, the group's position in the list.
+	 * @param groupName - (final) String, the name of the group which to join or not.
+	 * @param position - (final) int, the group's position in the list.
 	 */
 	public void answerGropInvites(final String groupName, final int position){
 		if( (getTitle().toString()).equals(getResources().getString(R.string.title_activity_main) +getResources().getString(R.string.add_online_tile)) ){
@@ -1340,10 +1408,11 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	}
 	
 	/**
+	 * NOT COMPLETE
 	 * answerJoinGroup - Gives admin and moderator an AlertDialog with the choice to add or reject
 	 * 					 a user that wants to be part of the group.
-	 * @param username - A String, the user name of the user that wants to join the group. 
-	 * @param position - An int, the user's position in the list.
+	 * @param username - (final) String, the user name of the user that wants to join the group. 
+	 * @param position - (final) int, the user's position in the list.
 	 */
 	public void answerJoinGroupRequest(final String username,final int position){
 		// NOTE: FAST CLICK BUGG MAY EXIST
@@ -1357,7 +1426,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 					public void onClick(DialogInterface dialog,
 							int which) {
 						// Attempt to add the user to the group, if failed throw new Exception(getResources().getString(R.string.join_by_request_group_failed));
-						// Add group in my groups
+						// Add group in my groups, and remove group from Group Invites
 						// Success remove the added member from list and close dialog
 						list.remove(position);
 						listview.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.dialog_list_row,list));
@@ -1375,15 +1444,110 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	}	
 	
 	/**
-	 * myGroups - Goes to the indicated group menu and closes the dialog.
-	 * @param groupName - A String, the group's name 
+	 * NOT COMPLETE
+	 * removeUser - Gives the moderator or admin the opportunity to get rid of pesky group members.
+	 * 
+	 * @param username - (final) String, the user's user name
+	 * @param position - (final) String, the user's position in the list.
 	 */
-	public void myGroups(String groupName){
-		
+	public void removeUser(final String username,final int position){
+		// NOTE: FAST CLICK BUGG MAY EXIST
+		AlertDialog.Builder removeUser = new AlertDialog.Builder(MainActivity.this);
+		removeUser.setTitle(R.string.remove_group_are_you_sure_title)
+		.setMessage(MainActivity.this.getResources().getString(R.string.remove_group_are_you_sure_message)  + username)
+		.setIcon(CONTEXT_IGNORE_SECURITY)
+		.setPositiveButton(R.string.yes,
+				new DialogInterface.OnClickListener() {
+					// Add actions on click here
+					public void onClick(DialogInterface dialog,
+							int which) {
+						// Attempt to remove the user to the group, if failed throw new Exception(getResources().getString(R.string.remove_group_member_failed ));
+						// make sure he is kicked out from database and group menu.... 
+						// Success remove the added member from list and close dialog
+						list.remove(position);
+						listview.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.dialog_list_row,list));
+						Toast.makeText(getBaseContext(),getResources().getString(R.string.remove_group_member_success)+ username, Toast.LENGTH_LONG).show();	
+					}
+				})
+		.setNegativeButton(R.string.no, null)
+		.create().show();	
+	}
+	
+// Searchable groups options 
+	/**
+	 * refreshList - Fetches the list from the server and sets a new adapter to the ListView.
+	 */
+	@SuppressWarnings("unchecked")
+	public void refreshList(){ 
+
+		if(custom.getTitle().equals(getResources().getStringArray(R.array.online_children)[0])){ // My Groups	
+			fetchListFromServer(R.layout.my_groups);
+			listview.setAdapter(new ArrayAdapter<String>(this, R.layout.dialog_list_row,list));
+		}else if(custom.getTitle().equals(getResources().getStringArray(R.array.online_children)[2])){ // Join Group
+			fetchListFromServer(R.layout.join_group);
+			listview.setAdapter(new ArrayAdapter<String>(this, R.layout.dialog_list_row,list));
+		}else if(custom.getTitle().equals(getResources().getStringArray(R.array.authority_children)[0])){ // Send Invite
+			fetchListFromServer(R.layout.send_invite);
+			listview.setAdapter(new ArrayAdapter<String>(this, R.layout.dialog_list_row,list));
+		}
+	}
+	
+	/**
+	 * searchList - Finds the specified search target and shows only that target
+	 */
+	public void searchList(){ 
+		EditText target= (EditText) custom.findViewById(R.id.user_text_input);
+
+		if(!list.contains(target.getText().toString())){
+			Toast.makeText(getBaseContext(),getResources().getString(R.string.search_target_not_found)+ target.getText().toString(), Toast.LENGTH_LONG).show();	
+		}else{
+			// To make the filter pop-up disappear
+			ArrayAdapter<String> adapt = new ArrayAdapter<String>(this, R.layout.dialog_list_row,list);
+			Filter f = adapt.getFilter();
+			f.filter(target.getText().toString());
+			listview.setAdapter(adapt);			
+		}
+			
+	}
+	
+	
+	
+	/**
+	 * myGroups - Goes to the indicated group menu and closes the dialog.
+	 * 
+	 * @param groupName - A String, the group's name 
+	 * @param position - An int, with the groups position in the list
+	 */
+	public void myGroups(String groupName, int position){ 
+			   // check if the user is allowed to go the group else send R.strings.my_group_failed_to_enter ...
 		       // Get group authority
 				goToMenu("group", ": "+groupName);
 				// add group autortity
 				closeDialog();
 	}
+	
+	/**
+	 * joinGroup - Sends a request to the group 
+	 * 
+	 * @param groupName - A String, the group name of the group to send the invite to.
+	 * @param position - An int, the groups position in the list.
+	 */
+	public void joinGroup(String groupName, int position){ 
+		// send a join group request to the selected group if failes send join_group_failed_send 
+		//closeDialog();
+		Toast.makeText(getBaseContext(),this.getResources().getString(R.string.join_group_success_send)+ groupName, Toast.LENGTH_LONG).show();	
+	}	
+	
+	/**
+	 * sendInvite - Used by admin and moderator to send an invite to join the group.
+	 * 
+	 * @param username - A String, the user name to send the invite to
+	 * @param position - An int, the user's position in the list.
+	 */
+	public void sendInvite(String username, int position){ 
+		Toast.makeText(getBaseContext(),this.getResources().getString(R.string.join_group_success_send)+ username, Toast.LENGTH_LONG).show();	
+	}
+	
+	
 	
 }
