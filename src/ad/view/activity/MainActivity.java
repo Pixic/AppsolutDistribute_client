@@ -1,5 +1,6 @@
 package ad.view.activity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -390,7 +391,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			}else if(label.equals(getResources().getStringArray(R.array.group_children)[2])){ // Leave Group
 				leaveGroup();
 /*group 2*/	}else if (label.equals(getResources().getStringArray(R.array.group_children)[4])) { // Chat
-			// dialog
+				goToChat();
 /*group 3*/	}else if (label.equals(getResources().getStringArray(R.array.group_children)[6])) { // About
 				createNewDialog(label, R.layout.info);
 				setInfoText(R.string.about_text);
@@ -621,6 +622,13 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 							}
 						})
 				.setNegativeButton(R.string.no, null).create().show();
+	}
+	
+	
+	public void goToChat(){
+		Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+		intent.putExtra("Protocol", protocol);
+		startActivity(intent);
 	}
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,7 @@
 package ad.controller.protocol;
 
+import java.io.Serializable;
+
 /**
  * Protocol 
  * 
@@ -21,7 +23,7 @@ package ad.controller.protocol;
  * limitations under the License.
  *
  */
-public class Protocol {
+public class Protocol implements Serializable {
 	
 	/**
 	 * attemptCreationOfAccount - Tries to create account returns false if failed to create account, 
@@ -52,5 +54,11 @@ public class Protocol {
 		
 		return true; // should return false if groupname is taken
 	}
+	
+	
+	public void sendMessage(String message){
+		
+	}
+	
 	
 }

@@ -210,7 +210,7 @@
 	<string name="send_invite_list_title"></string>
 	
 	<!-- Strings used by Remove Group Member dialog(m&a) -->
-	<string name="remove_group_member_title">Select User To Be Removed From Group: </string>
+	<string name="remove_group_member_title">Select User To Be removed:</string>
 	<string name="remove_group_are_you_sure_title">Do you want to remove this group member?</string>
 	<string name="remove_group_are_you_sure_message">Member: </string>
 	
@@ -223,10 +223,11 @@
 	<string name="no">No</string>
 	<string name="back">Back</string>
 	
-	
-	
+	<!-- resource for chat -->
+	<string name="chat_send_message">Send</string>
 	
     <!-- The definition for the Colors used in the application -->
+    <!-- colors by Mattias Isene -->
     <color name="black">#000000</color>
     <color name="red">#ff0000</color>
     <color name="blue">#0000ff</color>
@@ -234,6 +235,7 @@
     <color name="yellow">#ffff00</color>
     <color name="orange">#ffff66</color>
     <color name="purple">#ff00ff</color>
+    <!-- Colors for the expandable list menu -->
     <color name="ExpGroupBackground">#FF7C7C7C</color>
     <color name="ExpChildBackground">#22AFABAB</color>
     
@@ -378,52 +380,52 @@
    	 	<item></item> 
    	 	<item>About</item>
    	 	<item>Back</item>	
-    </string-array>
-	
-	
+    </string-array>	
 	
 	<string name="error_service_not_made">Service not made yet!</string>	
 	<!-- help menu options (user manual) and about -->
-	<string name="about_text"> © Stefan Arvidsson 2012 </string>
+	<string name="about_text"> 
+		This app was created by a group of students at Chalmers University of technology as an assignment. The creators are: Mattias Isene, David Harald, Michael Henriksson, Anton Kostet and Stefan Arvidsson. We are using a free Apache 2.0 license. 
+	</string>
 	<!-- 1.1. General, help text -->
 	<string name="help1_1"> <!--  1.1. Help -->
-	   
+	   Welcome to help! This section will guide you for a better app-experience with AppsolutDistribute. Use the index to find what you are looking for.
 	</string>
 	<string name="help1_2"> <!-- 1.2. About -->
 	    Information about copyright, license and who made the game. \n 
 	</string>
 	<string name="help1_3"><!-- 1.3. Settings -->
-	    
+	    By pressing the settings button a small popup will appear in the button of the screen. This is possible wherever you are in the app and from here you can change settings for your account.
 	</string>
 	<string name="help1_4"><!-- 1.4. Navigation -->
 	
 	</string>
 	<!-- 2. Connect To Server, help text -->
 	<string name="help2_1"><!-- 2.1 Create Account -->
-	
+	To get started with your AppsoultDistribute app you have to create an account. This is done from the from the “Create Account” tab. You need to fill in you user data, such as username, password, first name and surname. Make sure you remember your password! In this version there is no way to recover your password! The username needs to be unique. When you are done press create account, you are now ready to use AppsolutDistribute. 
 	</string>
 	<string name="help2_2"><!-- 2.2 Login -->
-	    
+	    Enter username and password then click ok.
 	</string>	
 	<string name="help2_3"><!-- 2.3. Select Server -->
-	    
+	    *User select/types specified server IP and server password. In the first version only one server will be available. 
 	</string>
 	<!-- 3. Manage Groups, help text -->
 	<string name="help3_1"><!-- 3.1. My Groups -->
-	    
+	    To access the manage group tab you need to be online and connected to the server. Under the manage groups tab you can change group name, password, add/remove users and more for the groups you have created or are moderator for. /n My groups are the list of the user’s active and archived groups.
 	</string>
 	<string name="help3_2"><!-- 3.2. Create Group -->
-	    
+	    To create a new group on the server you have to choose name, activities and invite members. 
 	</string>
 	<string name="help3_3"><!-- 3.3. Join Group -->
-	    
+	  See a list of active invites. To join a group click accept invite.   
 	</string>
 	<string name="help3_4"><!-- 3.4. Answer Group Invites -->
 	    
 	</string>
 	<!-- 4. Manage Account, help text -->
 	<string name="help4_1"><!-- 4.1. Change User Information -->
-	    
+	    Under the manage account tab you will find the tools to change password, user information and the option to end your account. Information such as first name, surname, email and more can be edited at any time using this button.
 	</string>
 	<string name="help4_2"><!-- 4.2. Change Password -->
 	    
@@ -485,8 +487,6 @@
 	<string name="help8_6"><!-- 8.6. End Group -->
 	    test
 	</string>
-   	
-	
 	
 	<!-- Special authority expandable list group -->
 	<string name="authority_group_title">Authority</string>
