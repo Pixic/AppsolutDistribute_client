@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Labyrinth()
+comment1.params=direction
+comment1.target=void\ walk(java.lang.String)
+comment1.text=\r\n\ Moves\ the\ current\ position\ to\ the\ adjacent\ room\ in\ the\ given\ direction.\r\n\ If\ such\ a\ room\ does\ not\ exist,\ a\ new\ one\ is\ created\ and\ doubly\r\n\ connected\ with\ the\ current\ room.\ Then\ the\ current\ position\ \r\n\ is\ set\ to\ the\ new\ room.\r\n\ \r\n\ @param\ \ direction\ \ \ the\ walking\ direction\r\n\ Errors\:\ An\ invalid\ direction\ is\ ignored.\r\n
+comment2.params=comment
+comment2.target=void\ addInfo(java.lang.String)
+comment2.text=\r\n\ Adds\ a\ comment\ to\ the\ existing\ information\ in\ the\ current\ room\r\n\r\n\ @param\ \ comment\ \ \ the\ information\ to\ add\r\n
+comment3.params=
+comment3.target=void\ printInfo()
+comment3.text=\r\n\ Print\ the\ information\ about\ the\ current\ room\ \r\n
+comment4.params=
+comment4.target=void\ printExits()
+comment4.text=\r\n\ Print\ the\ names\ of\ all\ exits\ from\ the\ current\ room\r\n
+comment5.params=fileName
+comment5.target=void\ save(java.lang.String)
+comment5.text=\r\n\ Saves\ the\ labyrinth\ state\ in\ a\ file\r\n\r\n\ @param\ \ fileName\ \ \ the\ name\ of\ the\ output\ file\r\n
+comment6.params=fileName
+comment6.target=void\ load(java.lang.String)
+comment6.text=\r\n\ Loads\ a\ complete\ labyrinth\ state\ from\ a\ file.\r\n\r\n\ @param\ \ fileName\ \ \ the\ name\ of\ the\ input\ file\r\n
+numComments=7

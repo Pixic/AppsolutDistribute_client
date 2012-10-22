@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.params=name
+comment0.target=File(String)
+comment1.params=other
+comment1.target=boolean\ equals(Object)
+comment2.target=int\ hashCode()
+comment3.target=String\ getName()
+comment4.params=recursive
+comment4.target=void\ print(boolean)
+comment5.params=indentLevel\ recursive
+comment5.target=void\ print(int,\ boolean)
+comment6.params=indentLevel
+comment6.target=void\ printSpaceChars(int)
+comment7.target=int\ getSize()
+numComments=8

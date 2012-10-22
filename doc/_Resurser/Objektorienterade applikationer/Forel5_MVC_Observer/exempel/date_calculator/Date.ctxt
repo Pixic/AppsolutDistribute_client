@@ -1,0 +1,49 @@
+#BlueJ class context
+comment0.params=year\ month\ day
+comment0.target=Date(int,\ int,\ int)
+comment0.text=\nDate\ -\ construct\ a\ date\ from\ given\ ymd\ components.\n\n@param\ \ year\ \ \ the\ year\ part\ of\ this\ Date\ object.\nThe\ argument\ must\ satisfy\ the\ relation\ year\ >\=\ 1900.\n@param\ \ month\ \ the\ month\ part\ of\ this\ Date\ object.\nThe\ argument\ must\ be\ in\ the\ interval\ [1,12].\n\n@param\ \ day\ \ \ \ the\ day\ part\ of\ this\ Date\ object.\nThe\ argument\ must\ satisfy\ the\ relation\ 1\ <\=\ day\ <\=\ m\nwhere\ m\ denotes\ the\ number\ of\ days\ in\ the\ given\ month\nin\ the\ given\ year.\n\n@throws\ \ \ \ \ \ \ \ IllegalStateException\ if\ any\ of\ the\ arguments\ violates\nthe\ validity\ of\ the\ constructed\ date.\n\n
+comment1.params=daysSince1900_01_01
+comment1.target=Date(long)
+comment1.text=\nDate\ -\ construct\ a\ date\ from\ a\ given\ day\ number.\nThis\ constructor\ is\ provided\ for\ internal\ use\ only.\n\n@param\ \ daysSince1900_01_01\ \ the\ number\ of\ days\ since\ 1900-01-01.\nThe\ argument\ must\ be\ >\ 0.\ The\ value\ 1\ denotes\ 1900-01-01.\n\n@throws\ \ \ \ \ \ \ \ IllegalArgumentException\ if\ the\ argument\ violates\nthe\ validity\ of\ the\ constructed\ date.\n\n
+comment10.target=int\ getDayNo()
+comment10.text=\ngetDayNo\ -\ computes\ the\ day\ number\ part\ of\ a\ date.\n\n@return\ \ \ \ \ \ \ \ an\ integer\ denoting\ the\ day\ number\ in\ the\ current\ year\ in\ the\ date\ \nrepresented\ by\ the\ calling\ object.\nThe\ returned\ value\ is\ in\ the\ interval\ [1,y],\ where\ y\ denotes\ the\nnumber\ of\ days\ in\ the\ current\ year.\ The\ calculation\ of\ y\ takes\noccasional\ leap\ days\ into\ account.\n\n
+comment11.target=DateDetails\ getDetails()
+comment12.target=int\ computeDayNo()
+comment13.target=long\ computeDaysBeforeThisYear()
+comment14.params=year
+comment14.target=long\ computeDaysBeforeYear(int)
+comment15.target=void\ computeDetails()
+comment16.params=days
+comment16.target=long\ computeYear(long)
+comment17.params=days
+comment17.target=long\ computeMonth(long)
+comment18.params=year
+comment18.target=int\ length(int)
+comment19.params=year
+comment19.target=boolean\ isLeapYear(long)
+comment2.params=days
+comment2.target=Date\ minus(long)
+comment2.text=\nminus\ -\ calculates\ a\ date\ before\ the\ date\ represented\ by\ this\ object.\n\n@param\ \ days\ \ \ the\ number\ of\ days\ to\ subtract.\ If\ days\ <\ 0,\ -days\ is\ added\n@return\ \ \ \ \ \ \ \ A\ new\ Date\ object\ representing\ a\ date\ the\ given\ number\ of\ \ndays\ before\ the\ date\ represented\ by\ this\ object.\n@throws\ \ \ \ \ \ \ \ IllegalArgumentException\ if\ the\ result\ of\ the\ operation\nwould\ denote\ a\ date\ before\ 1900-01-01.\n\n
+comment20.params=year\ month\ day
+comment20.target=void\ checkDate(int,\ int,\ int)
+comment21.params=day
+comment21.target=void\ checkDayNo(long)
+comment3.params=days
+comment3.target=Date\ plus(long)
+comment3.text=\nplus\ -\ calculates\ a\ date\ after\ the\ date\ represented\ by\ this\ object.\n\n@param\ \ days\ \ \ the\ number\ of\ days\ to\ add.\ If\ days\ <\ 0,\ -days\ is\ subtracted\nas\ defined\ by\ the\ minus\ method.\n@return\ \ \ \ \ \ \ \ A\ new\ Date\ object\ representing\ a\ date\ the\ given\ number\ of\ \ndays\ after\ the\ date\ represented\ by\ this\ object.\n\n
+comment4.params=days
+comment4.target=void\ subtract(long)
+comment4.text=\nsubtract\ -\ changes\ the\ date\ representation\ in\ this\ object\ to\ an\ earlier\ date.\n\n@param\ \ days\ \ \ the\ number\ of\ days\ to\ subtract.\ If\ days\ <\ 0,\ -days\ is\ added.\nIf\ days\ \!\=\ 0\ the\ operation\ will\ mutate\ the\ calling\ object.\nDate\ objects\ are\ Observable,\ hence\ all\ observers\ will\ be\ notified.\n@throws\ \ \ \ \ \ \ \ IllegalArgumentException\ if\ the\ result\ of\ the\ operation\nwould\ denote\ a\ date\ before\ 1900-01-01.\n\n
+comment5.params=days
+comment5.target=void\ add(long)
+comment5.text=\nadd\ -\ changes\ the\ date\ representation\ in\ this\ object\ to\ a\ later\ date.\n\n@param\ \ days\ \ \ the\ number\ of\ days\ to\ add.\ If\ days\ <\ 0,\ -days\ is\ subtracted.\nIf\ days\ \!\=\ 0\ the\ operation\ will\ mutate\ the\ calling\ object.\nDate\ objects\ are\ Observable,\ hence\ all\ observers\ will\ be\ notified.\n\n
+comment6.params=d
+comment6.target=long\ diff(Date)
+comment6.text=\ndiff\ -\ computes\ the\ time\ span\ measured\ in\ days\ between\ two\ dates.\n\n@param\ \ d\ \ \ \ \ \ a\ Date\ object.\ \n@return\ \ \ \ \ \ \ \ the\ number\ of\ days\ between\ the\ date\ represented\ by\ the\ calling\ object\nand\ the\ date\ represented\ by\ the\ object\ given\ as\ argument.\nIf\ the\ argument\ denotes\ an\ earlier\ date\ than\ the\ calling\ object,\ the\ result\nis\ positive,\ otherwise\ negative.\n\n
+comment7.target=int\ getYear()
+comment7.text=\ngetYear\ -\ computes\ the\ year\ part\ of\ a\ date.\n\n@return\ \ \ \ \ \ \ \ an\ integer\ denoting\ the\ year\ part\ in\ the\ date\ represented\ by\ the\ calling\ object.\nThe\ returned\ value\ will\ allways\ be\ an\ integer\ >\=\ 1900.\n\n
+comment8.target=int\ getMonth()
+comment8.text=\ngetMonth\ -\ computes\ the\ month\ part\ of\ a\ date.\n\n@return\ \ \ \ \ \ \ \ an\ integer\ denoting\ the\ month\ number\ in\ the\ date\ represented\ by\ the\ calling\ object.\nThe\ returned\ value\ is\ in\ the\ interval\ [1,12].\n\n
+comment9.target=int\ getDay()
+comment9.text=\ngetDay\ -\ computes\ the\ day\ part\ of\ a\ date.\n\n@return\ \ \ \ \ \ \ \ an\ integer\ denoting\ the\ day\ number\ in\ the\ current\ month\ in\ the\ date\ \nrepresented\ by\ the\ calling\ object.\nThe\ returned\ value\ is\ in\ the\ interval\ [1,m],\ where\ m\ denotes\ the\nnumber\ of\ days\ in\ the\ current\ month.\ The\ calculation\ of\ m\ takes\noccasional\ leap\ days\ into\ account.\n\n
+numComments=22

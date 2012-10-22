@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=generator
+comment0.target=BufferedNumberGenerator(NumberGenerator)
+comment1.target=void\ computeNext()
+comment1.text=\nCompute\ the\ next\ number\n\n
+comment2.target=void\ reset()
+comment2.text=\nReset\ the\ generator\ to\ its\ initial\ state\n\n
+comment3.target=long\ getValue()
+comment4.params=n
+comment4.target=long[]\ getNextSequence(int)
+comment4.text=\nCompute\ an\ array\ of\ numbers.\n\n@param\ \ n\ \ \ the\ number\ of\ numbers\ to\ compute\n@return\ \ \ \ \ an\ arry\ containing\ the\ next\ n\ numbers\ in\ the\ sequence\n\n
+numComments=5

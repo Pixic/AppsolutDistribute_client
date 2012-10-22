@@ -1,0 +1,4 @@
+#BlueJ class context
+comment0.params=primeGen\ fibGen
+comment0.target=UserInterface(model.PrimeGenerator,\ model.FibonacciGenerator)
+numComments=1

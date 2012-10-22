@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=SharedNumberServer()
+comment1.target=SharedNumberServer\ getInstance()
+comment2.target=int\ getNext()
+numComments=3

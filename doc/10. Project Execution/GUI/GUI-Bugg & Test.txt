@@ -44,7 +44,7 @@ Kommentar: Troligen går ovanstånde buggar att åtgära i style.xml eller direkt i 
 2012-10-20 (1)
 - Vid tryck på Service funktionens ikon i Ongoing fältet startas appen om, men Service funktionen
   var tänkt att endast köra när man är online, dvs att man skall hamna i online menyn vid tryck
-  utav ikonen i Ongoing fältet.
+  utav ikonen i Ongoing fältet.(FIXAT 2012-10-21)
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -98,10 +98,12 @@ Bugg status:
 		Kraschen årgärdades genom att sätta en try catch (fångar inget Exception)  
 		runt AlertDialogen samt innesluta AlertDialogen i ett vilkor, som undersöker  
 		ifall man redan utfört åtgärden(tex i logout skickar man i stacken för att
-		se om man är i rot menyn dvs "start" menyn).  
+		se om man är i rot menyn dvs "start" menyn).En svår fixad bugg som inte 
+		är fixad till 100 %.
 
-2012-10-20 (1): EJ FIXAT
+2012-10-20 (1): I aktivitetens onCreate() kollar man om servicen kör och om den gör det så
+		går man direkt till online menyn. 
 
 //////////////////////////////////////////////////////////////////////////////////////////
 (c) 2012 Stefan Arvidsson
-Senast uppdaterad: 2012-10-14
+Senast uppdaterad: 2012-10-21

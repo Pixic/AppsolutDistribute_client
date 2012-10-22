@@ -1,0 +1,3 @@
+Kompilera:
+
+> javac -sourcepath .. *.java

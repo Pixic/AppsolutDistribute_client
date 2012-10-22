@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=JobGenerator()
+comment0.text=\nConstruct\ a\ Responder\n\n
+comment1.target=void\ fillJobList()
+comment1.text=\nBuild\ up\ a\ list\ of\ default\ responses\ from\ which\ we\ can\ pick\ one\nif\ we\ don't\ know\ what\ else\ to\ say.\n\n
+comment2.target=String\ pickRandomJob()
+comment2.text=\nRandomly\ select\ and\ return\ one\ of\ the\ default\ jobs.\n@return\ \ \ \ \ A\ random\ job\n\n
+numComments=3

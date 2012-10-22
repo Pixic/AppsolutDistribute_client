@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.params=sharedNumberServer\ printerDevice
+comment0.target=TicketClient(SharedNumberServer,\ String)
+comment1.target=void\ makeTicket()
+numComments=2

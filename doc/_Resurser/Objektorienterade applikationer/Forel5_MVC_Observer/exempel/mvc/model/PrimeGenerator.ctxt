@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=PrimeGenerator()
+comment0.text=\nConstructor\ for\ objects\ of\ class\ PrimeGenerator\n\n
+comment1.params=x
+comment1.target=boolean\ isPrime(long)
+comment2.target=void\ computeNext()
+comment2.text=\nCompute\ the\ next\ prime\ number\n\n
+comment3.target=void\ reset()
+comment3.text=\nReset\ the\ generator\ to\ its\ initial\ state\n\n
+comment4.target=long\ getValue()
+comment4.text=\nReturn\ the\ current\ prime\ number\n\n
+numComments=5

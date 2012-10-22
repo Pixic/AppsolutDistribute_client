@@ -170,7 +170,29 @@
 	<string name="end_group_failed">Failed to end the group!</string>
 	<string name="end_group_success">Group Ended</string>
 		
-		
+	<!-- Strings used by Group Invites dialog -->
+	<string name="answer_invite_list_title">Invites From: </string>
+	<string name="answer_invite_title">Do you want to join this group</string>
+	<string name="answer_invite_message">Group: </string>
+	<string name="answer_invite_remove_invite_option">Remove Invite</string>
+	<string name="join_group_failed">Failed to join the group!</string> <!-- NOT IMPLEMENTED YET -->
+	<string name="join_group_success">Joined group!</string>
+	
+	<!-- Strings used by Answer Join Request dialog -->
+	<string name="answer_join_request_list_title">From: </string>
+	<string name="answer_request_title">Do you want this user to join your group?</string>
+	<string name="answer_request_message">User: </string>
+	<string name="answer_request_remove_user_request">Remove Request</string>
+	<string name="answer_request_failed">Failed to add member</string> <!-- NOT IMPLEMENTED YET -->
+	<string name="answer_request_success">A new member joined the group</string>
+	
+	<!-- Strings used by Group Members dialog -->
+	<string name="group_member_list_title">Group Members: </string>
+	
+	<!-- Strings used by searchable list dialog layout -->
+	<string name="search_subtitle">Search: </string>
+	<string name="search_button">Search</string>
+	<string name="refresh_button">Refresh</string>
 	
 	<!-- Strings used by several Dialogs -->
 	<string name="done">Done</string> <!-- is not applied -->

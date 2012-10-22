@@ -1,5 +1,6 @@
 package ad.view.activity;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import ad.model.expList.ExpListChild;
@@ -11,20 +12,29 @@ import ad.controller.list.ExpListAdapter;
 import ad.controller.protocol.Protocol;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
+import android.app.Notification;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.OnChildClickListener;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
@@ -44,7 +54,7 @@ import android.content.Intent;
  *    InputFilter[] filters,  
  *    
  * Sections and their methods:
- * Activity: onCreate, onCreateOptions
+ * Activity: onCreate, isServiceRunning, onCreateOptions
  * 
  * Menu On Click/Select: onChildClick, onOptionsItemSelected, onKeyDown
  *                     
@@ -55,13 +65,19 @@ import android.content.Intent;
  * 				
  * Standard Operation: goToMenu, onBack, logout, onExit 
  * 	
- * Build Dialog: createNewDialog, createDialogButton,  
- * 		      				, closeDialog, createAccount
- * Dialog OnClick/Selection: onClick  (here will probably the ListView Onclick method be)
+ * Build Dialog: createNewDialog, createDialogButton, setInfoText, createListDialog (onitemclick is here)
+ * 
+ * Dialog OnClick/Selection: onClick  
  * 
  * Dialog Standard Operations: closeDialog, goOnline
  * 
- * Dialog Special Operations: createAccount, login, createGroup
+ * Dialog Offline Operations: createAccount, login, 
+ * 
+ * Dialog Online Operations: createGroup, changeUserInfo, changePassword, endAccount
+ * 
+ * Dialog Group Operations: endGroup, leaveGroup, changeGroupName, setGroupInfo
+ * 
+ * Dialog List Operations: answerGropInvites, answerJoinGroupRequest, myGroups
  * 
  * @author Stefan Arvidsson 
  * 
@@ -96,32 +112,64 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	private InputFilter[] filters = {new CharacterFilter (), new LengthFilter(40)};
 
 	private static final int AUTHORITY_USER=0, AUTHORITY_MODERATOR=1, AUTHORITY_ADMIN=2;
-	private static final int minUsername=4, maxUsername=20,maxName=20, minPassword=6, 
-							 maxPassword=20, maxEmail=40, minGroupName=4, 
-							 maxGroupName=20, groupInfo = 250;
-
-	//private int currentAuthority = AUTHORITY_USER;
-			
+	private static final int MIN_USERNAME=4, MAX_USERNAME=20,MAX_NAME=20, MIN_PASSWORD=6, 
+							 MAX_PASSWORD=20, MAX_EMAIL=40, MIN_GROUP_NAME=4, 
+							 MAX_GROUP_NAME=20, MAX_GROUP_INFO = 250;
+	
+	private ArrayList<String> list;
+	private ListView listview;		
+	
 	// ---------------------------------------------------------------------------------------------------------------------------------------------------
 	// Activity Section - methods that are overridden from the Activity superclass, examples: What happens when the activity is created, paused, e.g. ----
 	// ---------------------------------------------------------------------------------------------------------------------------------------------------
 	/**
 	 * onCreate - Called when the activity is first created. Defines what
 	 * happens on application start up. Sets the content of the view and build
-	 * the ExpandableListView menu.
+	 * the ExpandableListView menu. Checks if service is running, if so it goes
+	 * to online menu.
 	 * 
 	 * @param savedInstanceState  - Bundle with the state of the Activity.       
 	 */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);		
 		setContentView(R.layout.main);
 		expandList = (ExpandableListView) findViewById(R.id.ExpList); // Build the initial expandable list menu
 		expAdapter = new ExpListAdapter(MainActivity.this, "start");
 		expandList.setAdapter(expAdapter);
 		expandList.setOnChildClickListener(this);
+		
+		
+		if(isServiceRunning()){
+			try{
+			this.goToMenu("online", getResources().getString(R.string.add_online_tile));
+				 }catch(Exception e){
+				  Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show(); 
+			  }
+		}
+		
 	}
 
+	/**
+	 * isServiceRunning - A quick fix to make sure that if the user is online the user
+	 * 					  will be able to return to the online menu. 
+	 * @return boolean - the running state of the service, true if running
+	 */
+	private boolean isServiceRunning(){
+	  try{
+		ActivityManager serviceManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE); 
+	    for (RunningServiceInfo service : serviceManager.getRunningServices(Integer.MAX_VALUE)) { 
+	        if ("ad.view.service.AppService".equals(service.service.getClassName())) { 
+	            return true; 
+	        } 
+	    } 
+	  }catch(Exception e){
+		  Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show(); 
+	  }
+	    return false; 
+
+	}
+	
 	/**
 	 * onCreateOptionsMenu - Creates the menu layout.
 	 * 
@@ -212,8 +260,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
 /*group 2*/	} else if (label.equals(getResources().getStringArray(R.array.start_children)[4])) { // About
 				createNewDialog(label, R.layout.info);	
-				TextView text = (TextView) custom.findViewById(R.id.info);
-				text.setText(getResources().getText(R.string.about_text));
+				setInfoText(R.string.about_text);
 			} else if (label.equals(getResources().getStringArray(R.array.start_children)[5])) { // Help	
 				goToMenu("help1", getResources().getText(R.string.add_help_tile));
 			} else if (label.equals(getResources().getStringArray(R.array.start_children)[6])) { // Exit
@@ -266,7 +313,11 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	public void onlineMenu(String label) {
 
 			if (label.equals(getResources().getStringArray(R.array.online_children)[0])) { // My Groups
-				//createNewDialog(label, R.layout.my_groups);
+				// Get my group list from server, remove and replace the test input bellow				
+				list = new ArrayList<String>();// test
+					list.add("hello world");
+					list.add("tjena");		
+				createListDialog(label, R.layout.my_groups);
 				// test, Behöver skicka in gruppens namn från ListView (outdated)
 //				CharSequence title = new String(": " + label);
 //				goToMenu("group", title);
@@ -275,7 +326,13 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			} else if (label.equals(getResources().getStringArray(R.array.online_children)[2])) { // Join Group
 			//	createNewDialog(label, R.layout.join_groups);
 			} else if (label.equals(getResources().getStringArray(R.array.online_children)[3])) { // Answer Group Invites
-				//createNewDialog(label, R.layout.answer_group_invites);
+				// Get group invite list from server, remove and replace the test input bellow
+				list = new ArrayList<String>();
+				for(int i=0;i<30;i++){
+					list.add("hello world");
+					list.add("tjena");
+				}				
+				createListDialog(label, R.layout.answer_invites);
 /*group 2*/	} else if (label.equals(getResources().getStringArray(R.array.online_children)[5])) { // Change User Information
 				createNewDialog(label, R.layout.change_user_information);
 			} else if (label.equals(getResources().getStringArray(R.array.online_children)[6])) { // Change Password
@@ -286,6 +343,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 				onBack();
 			} else if (label.equals(getResources().getStringArray(R.array.online_children)[10])) { // About
 				createNewDialog(label, R.layout.info);
+				setInfoText(R.string.about_text);
 			} else if (label.equals(getResources().getStringArray(R.array.online_children)[11])) { // Help
 				goToMenu("help2", getResources().getText(R.string.add_help_tile)); 
 			} 
@@ -331,7 +389,14 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	 */
 	public void groupMenu(String label){
 			if (label.equals(getResources().getStringArray(R.array.group_children)[0])) { // Group members
-			// dialog
+				// Get group member list from server, remove and replace the test input bellow
+				list = new ArrayList<String>();// test
+				for(int i=0;i<30;i++){
+					list.add("isene");
+					list.add("michael");
+					list.add("anton");
+				}				
+				createListDialog(label, R.layout.group_member_list);
 			}else if(label.equals(getResources().getStringArray(R.array.group_children)[1])){ // Group Info
 				createNewDialog(label, R.layout.info);
 				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
@@ -342,6 +407,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			// dialog
 /*group 3*/	}else if (label.equals(getResources().getStringArray(R.array.group_children)[6])) { // About
 				createNewDialog(label, R.layout.info);
+				setInfoText(R.string.about_text);
 			}else if (label.equals(getResources().getStringArray(R.array.group_children)[7])) { // Help
 				goToMenu("help3", this.getResources().getText(R.string.add_help_tile)); 
 			}else if (label.equals(getResources().getStringArray(R.array.group_children)[8])) { // Back
@@ -351,7 +417,13 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 /*m&a*/		else if(label.equals(getResources().getStringArray(R.array.authority_children)[0])){ // Send Invite
 				
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[1])){ // Answer Join Request
-				
+				// Get Join request list from server, remove and replace the test input bellow
+				list = new ArrayList<String>();// test
+				for(int i=0;i<30;i++){
+					list.add("mr Awesome");
+					list.add("harry");
+				}				
+				createListDialog(label, R.layout.answer_join_request);
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[2])){ // Add Feature ... NO time, Not implemented
 				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[3])){ // Remove Feature ... NO time, Not implemented
@@ -365,8 +437,10 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 				createNewDialog(label, R.layout.set_group_info);
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[8])){ // Promote User
 				//createNewDialog(label, R.layout.);
+				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[9])){ // Demote User
 				//createNewDialog(label, R.layout.);
+				Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
 			}else if(label.equals(getResources().getStringArray(R.array.authority_children)[10])){ // End Group
 				createNewDialog(label, R.layout.end_group);			
 			}
@@ -488,7 +562,6 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		backExpMenu.push(expAdapter);		// lägger menyn på stacken
 		expAdapter = new ExpListAdapter(MainActivity.this, menuName); // skapar den nya meny adaptern
 		expandList.setAdapter(expAdapter);								// sätter den nya meny adaptern till menyns adapter
-		// getResources().getString(R.string.title_activity_main) the static value
 		backAppTitle.push(titel); // lägger den gamla titeln på stacken
 		setTitle(getResources().getString(R.string.title_activity_main)  + titel);	// lägger den gamla titeln + ny titel som titel
 		
@@ -531,6 +604,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	 * 			go offline or stay online
 	 */
 	public void logout() {
+
 			AlertDialog.Builder exit = new AlertDialog.Builder(MainActivity.this);
 			exit.setTitle(R.string.go_offline_title)
 				.setIcon(CONTEXT_IGNORE_SECURITY)
@@ -545,7 +619,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 							expandList.setAdapter(expAdapter);			
 							backAppTitle.pop();
 							setTitle(getResources().getString(R.string.title_activity_main));
-							stopService(new Intent(MainActivity.this, AppService.class));
+							stopService(new Intent(MainActivity.this, AppService.class)); 
 							}
 						}catch(Exception e){/*Not necessary to do anything here yet*/}
 					}		
@@ -602,20 +676,14 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			createDialogButton(R.id.login_button);
 			((EditText) custom.findViewById(R.id.user_text_input)).setFilters(filters);
 			((EditText) custom.findViewById(R.id.password)).setFilters(filters);
-		}
-//		else if(layout == R.layout.my_groups){
-//			
-//		}
-		else if (layout == R.layout.create_group){
+		}else if (layout == R.layout.create_group){
 			createDialogButton(R.id.create_group_button);
 			((EditText) custom.findViewById(R.id.user_text_input)).setFilters(filters);
 		}
 //		else if(layout == R.layout.join_groups){
 //			
 //		}
-//		else if(layout == R.layout.answer_group_invites){
-//			
-//		}
+
 		else if(layout == R.layout.change_user_information){
 			createDialogButton(R.id.change_userinfo_button);
 			((EditText) custom.findViewById(R.id.change_username_text_input)).setFilters(filters);
@@ -637,7 +705,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			((EditText) custom.findViewById(R.id.password)).setFilters(filters);
 		}else if(layout == R.layout.set_group_info){
 			createDialogButton(R.id.set_group_info_button);
-			InputFilter[] f = {new LengthFilter(groupInfo)};
+			InputFilter[] f = {new LengthFilter(MAX_GROUP_INFO)};
 			((EditText) custom.findViewById(R.id.user_text_input)).setFilters(f);
 		}else if(layout == R.layout.end_group){
 			createDialogButton(R.id.end_group_button);
@@ -649,9 +717,9 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		custom.show();
 	}
 
+	
 	/**
-	 * createDialogButton - Creates a dialog button and adds the dialog
-	 * listener.
+	 * createDialogButton - Creates a dialog button and adds the dialog listener.
 	 * 
 	 * @param buttonId  - An int with the buttons id.          
 	 */
@@ -659,6 +727,75 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		Button button = (Button) custom.findViewById(buttonId);
 		button.setOnClickListener(listener);
 	}
+	
+	public void setInfoText(int textId){
+		TextView text = (TextView) custom.findViewById(R.id.info);
+		text.setText(getResources().getText(textId));
+	}
+	
+	/**
+	 * createListDialog - Creates the dialogs that have a list.
+	 * @param title - A String, the title of the dialog
+	 * @param layout - An int, the layout id of the dialog
+	 */
+	public void createListDialog(String title, int layout){
+		custom = new CustomDialog(MainActivity.this, layout);
+		custom.setTitle(title);
+		listview =(ListView)custom.findViewById(R.id.listview);
+		listview.setAdapter(new ArrayAdapter<String>(this, R.layout.dialog_list_row,list));
+		OnItemClickListener listListener = null;
+		if(layout == R.layout.answer_invites){
+			 ((TextView) custom.findViewById(R.id.list_subtitle)).setText(R.string.answer_invite_list_title);
+			   listListener= new OnItemClickListener(){
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					Toast.makeText(getBaseContext(),list.get(arg2), Toast.LENGTH_LONG).show();
+					answerGropInvites(list.get(arg2), arg2);				
+					
+				}
+			};
+		}else if(layout == R.layout.answer_join_request){
+			((TextView) custom.findViewById(R.id.list_subtitle)).setText(R.string.answer_join_request_list_title);
+			   listListener= new OnItemClickListener(){
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					Toast.makeText(getBaseContext(),list.get(arg2), Toast.LENGTH_LONG).show();
+					answerJoinGroupRequest(list.get(arg2), arg2);		
+					
+				}
+			};
+		}else if(layout == R.layout.group_member_list){
+			((TextView) custom.findViewById(R.id.list_subtitle)).setText(R.string.group_member_list_title);
+			   listListener= new OnItemClickListener(){
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					Toast.makeText(getBaseContext(),list.get(arg2), Toast.LENGTH_LONG).show();		
+				}
+			};
+		}else if(layout == R.layout.my_groups){
+			   listListener= new OnItemClickListener(){
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					myGroups(list.get(arg2));
+					//Toast.makeText(getBaseContext(),list.get(arg2), Toast.LENGTH_LONG).show();		
+				}
+			};
+			
+			
+		}
+	
+		listview.setOnItemClickListener(listListener);
+		
+		createDialogButton(R.id.dialog_back_button);
+		custom.show();
+		
+	}
+	
+
 		
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 // Dialog OnClick/Selection Section -  Identifies selected dialog button and its course of action. ---------------------------------------------------
@@ -698,6 +835,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		}
 	};
 
+	
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 // Dialog Standard Operations Section - methods used by several dialogs and other dialog methods. ----------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
@@ -727,11 +865,8 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	}
 	
 	
-	
-	
-	
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
-// Dialog Special Operations Section - methods used by one dialog item. ------------------------------------------------------------------------------
+// Dialog Offline Operations Section - methods used by one dialog item. ------------------------------------------------------------------------------
 // ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 	/**
@@ -754,36 +889,37 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			// Check user name
 			if (username.getText().toString().length() == 0){
 				throw new Exception(getResources().getString(R.string.account_error_no_user_name));
-			}else if (username.getText().toString().length() < minUsername){
+			}else if (username.getText().toString().length() < MIN_USERNAME){
 				throw new Exception(getResources().getString(R.string.account_error_short_user_name));
-			} else if(username.getText().toString().length() > maxUsername){
+			} else if(username.getText().toString().length() > MAX_USERNAME){
 				throw new Exception(getResources().getString(R.string.account_error_long_user_name));
 			}	// Check password
 			if((password1.getText().toString().length()==0)|| (password2.getText().toString().length()==0)){
 				throw new Exception(getResources().getString(R.string.account_error_no_password));
-			}else if ((password1.getText().toString().length() < minPassword) || (password2.getText().toString().length() < minPassword) ){
+			}else if ((password1.getText().toString().length() < MIN_PASSWORD) || (password2.getText().toString().length() < MIN_PASSWORD) ){
 				throw new Exception(getResources().getString(R.string.account_error_short_password));
-			}else if((password1.getText().toString().length() > maxPassword) || (password2.getText().toString().length() >maxPassword)){
+			}else if((password1.getText().toString().length() > MAX_PASSWORD) || (password2.getText().toString().length() >MAX_PASSWORD)){
 				throw new Exception(getResources().getString(R.string.account_error_long_password));
-			}else if (!((password1.getText().toString()).equals(password2.getText().toString())))
+			}else if (!((password1.getText().toString()).equals(password2.getText().toString()))){
 				throw new Exception(getResources().getString(R.string.account_error_password_match));	
 			// Check other user information
-			if((firstName.getText().toString().length() > maxName)){
+			}else if((firstName.getText().toString().length() > MAX_NAME)){
 				throw new Exception(getResources().getString(R.string.account_error_first_name));
-			}if((surname.getText().toString().length() >maxName))
+			}else if((surname.getText().toString().length() >MAX_NAME)){
 				throw new Exception(getResources().getString(R.string.account_error_surname));
-			if(email.getText().toString().length() > maxEmail ) // might be unnecessary, depending on maximum input size in filter.
+			}else if(email.getText().toString().length() > MAX_EMAIL ){ // might be unnecessary, depending on maximum input size in filter.
 				throw new Exception(getResources().getString(R.string.account_error_email));
+			}
 			// Attempt validation check of email. maybe if there is time...
 			// The create account attempt, check if everything went well, if so go online.
 			 if(!(protocol.attemptCreationOfAccount(username.getText().toString(),password1.getText().toString(), 
-					 firstName.getText().toString(),surname.getText().toString()))){
+					 firstName.getText().toString(),surname.getText().toString(),email.getText().toString()))){
 				 throw new Exception(getResources().getString(R.string.failed_to_create_account));
 			 }else{
 
 				// Go online... one should go online (server should set the user) 
 				// once the account has been created, meaning -> go to the online menu
-				 //or else goOnline(username.getText().toString(), password1.getText().toString()); 				 protocol.attemptCreationOfAccount(username, password, firstName, surname)
+				 //or else goOnline(username.getText().toString(), password1.getText().toString());  protocol.attemptCreationOfAccount(username, password, firstName, surname)
 				 startService(new Intent(this, AppService.class));
 				 goToMenu("online",getResources().getString(R.string.add_online_tile));				
 				closeDialog();
@@ -808,28 +944,27 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			// Check user name
 			if ((username.getText().toString().length()) == 0){
 				throw new Exception(getResources().getString(R.string.account_error_no_user_name));
-			}else if (username.getText().toString().length() < minUsername){
+			}else if (username.getText().toString().length() < MIN_USERNAME){
 				throw new Exception(getResources().getString(R.string.account_error_short_user_name));
-			} else if(username.getText().toString().length() > maxUsername){
+			} else if(username.getText().toString().length() > MAX_USERNAME){
 				throw new Exception(getResources().getString(R.string.account_error_long_user_name));
 			} // Check Password
 			if(password.getText().toString().length() == 0){
 				throw new Exception(getResources().getString(R.string.account_error_no_password));
-			}else if (password.getText().toString().length() < minPassword){
+			}else if (password.getText().toString().length() < MIN_PASSWORD){
 				throw new Exception(getResources().getString(R.string.account_error_short_password));
-			}else if(password.getText().toString().length() > maxPassword){
+			}else if(password.getText().toString().length() > MAX_PASSWORD){
 				throw new Exception(getResources().getString(R.string.account_error_long_password));
 			}		
-			// Attempt go online, throws exceptions
+			// Attempt go online, throws exceptions //  R.string.failed_to_login
 			 goOnline(username.getText().toString(), password.getText().toString());
-			 
-			 startService(new Intent(this, AppService.class));
+
+			startService(new Intent(MainActivity.this, AppService.class));
 			 
 			goToMenu("online",getResources().getString(R.string.add_online_tile));
 			closeDialog();
-			 //service.startService(new Intent(this, AppService.class));
 		}catch(Exception e){
-			//  R.string.failed_to_login
+			
 			Toast.makeText(getBaseContext(),e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
@@ -845,6 +980,10 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		// Close dialog...
 	}
 	
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+// Dialog Online Operations Section - methods used by one dialog item. -------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------	
+	
 	/**
 	 * NOT COMPLETE
 	 * createGroup - Reads in the user input and checks if its correct, if not send
@@ -859,9 +998,9 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			// Check Group Name
 			if (groupName.getText().toString().length() == 0){
 				throw new Exception(getResources().getString(R.string.create_group_error_no_name));
-			}else if(groupName.getText().toString().length() < minGroupName){
+			}else if(groupName.getText().toString().length() < MIN_GROUP_NAME){
 				throw new Exception(getResources().getString(R.string.create_group_error_name_to_short));
-			}else if(groupName.getText().toString().length() > maxGroupName){
+			}else if(groupName.getText().toString().length() > MAX_GROUP_NAME){
 				throw new Exception(getResources().getString(R.string.create_group_error_name_to_long));
 			}
 			
@@ -880,7 +1019,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			Toast.makeText(getBaseContext(),e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
-	
+
 	/**
 	 * NOT COMPLETE
 	 * changeUserInfo - Reads in the user input and checks if its correct, if not send
@@ -893,15 +1032,15 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		EditText surname = (EditText) custom.findViewById(R.id.change_surname_text_input);
 		EditText email = (EditText) custom.findViewById(R.id.change_email_text_input);
 		try{// Check the user input
-			if (username.getText().toString().length() < minUsername){
+			if (username.getText().toString().length() < MIN_USERNAME){
 				throw new Exception(getResources().getString(R.string.change_userinfo_username_input_to_short));
-			} else if(username.getText().toString().length() > maxUsername){
+			} else if(username.getText().toString().length() > MAX_USERNAME){
 				throw new Exception(getResources().getString(R.string.change_userinfo_username_input_to_long));
-			}else if((firstName.getText().toString().length() > maxName)){ 
+			}else if((firstName.getText().toString().length() > MAX_NAME)){ 
 				throw new Exception(getResources().getString(R.string.change_userinfo_first_name_input_to_long));
-			}else if((surname.getText().toString().length() >maxName)){
+			}else if((surname.getText().toString().length() >MAX_NAME)){
 				throw new Exception(getResources().getString(R.string.change_userinfo_surname_input_to_long));
-			}else if(email.getText().toString().length() > maxEmail ) // might be unnecessary, depending on maximum input size in filter.
+			}else if(email.getText().toString().length() > MAX_EMAIL ) // might be unnecessary, depending on maximum input size in filter.
 				throw new Exception(getResources().getString(R.string.change_userinfo_email_input_to_long));
 			// Attempt validation check of email. maybe
 			
@@ -915,7 +1054,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		
 		
 	}
-	
+
 	/**
 	 *  NOT COMPLETE
 	 * changePassword - Reads in the user input and checks if its correct, if not send
@@ -931,15 +1070,15 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			// checks if the two new passwords are correct and matches 
 			if (oldPassword.getText().toString().length() == 0){			
 				throw new Exception(getResources().getString(R.string.change_error_no_current_password)); 
-			}else if(oldPassword.getText().toString().length() < minPassword){
+			}else if(oldPassword.getText().toString().length() < MIN_PASSWORD){
 				throw new Exception(getResources().getString(R.string.change_error_current_to_short_password));
-			}else if(oldPassword.getText().toString().length() > maxPassword){
+			}else if(oldPassword.getText().toString().length() > MAX_PASSWORD){
 				throw new Exception(getResources().getString(R.string.change_error_current_to_long_password));
 			}else if((password1.getText().toString().length() == 0) || (password2.getText().toString().length() == 0)){
 				throw new Exception(getResources().getString(R.string.change_error_no_new_password));
-			}else if((password1.getText().toString().length() < minPassword) || (password2.getText().toString().length() < minPassword)){
+			}else if((password1.getText().toString().length() < MIN_PASSWORD) || (password2.getText().toString().length() < MIN_PASSWORD)){
 				throw new Exception(getResources().getString(R.string.change_error_new_to_short_password));
-			}else if((password1.getText().toString().length() > maxPassword) || (password2.getText().toString().length() > maxPassword)){
+			}else if((password1.getText().toString().length() > MAX_PASSWORD) || (password2.getText().toString().length() > MAX_PASSWORD)){
 				throw new Exception(getResources().getString(R.string.change_error_new_to_long_password));
 			}else if(!((password1.getText().toString()).equals(password2.getText().toString()))){
 				throw new Exception(getResources().getString(R.string.change_error_new_passwords_mismatch));
@@ -969,16 +1108,16 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			// Check if the user password input is correct
 			if((password1.getText().toString().length() == 0) || (password2.getText().toString().length() == 0)){
 				throw new Exception(getResources().getString(R.string.end_account_no_passwords));
-			}else if((password1.getText().toString().length() < minPassword) || (password2.getText().toString().length() < minPassword)){
+			}else if((password1.getText().toString().length() < MIN_PASSWORD) || (password2.getText().toString().length() < MIN_PASSWORD)){
 				throw new Exception(getResources().getString(R.string.end_account_password_to_short));
-			}else if((password1.getText().toString().length() > maxPassword) || (password2.getText().toString().length() > maxPassword)){
+			}else if((password1.getText().toString().length() > MAX_PASSWORD) || (password2.getText().toString().length() > MAX_PASSWORD)){
 				throw new Exception(getResources().getString(R.string.end_account_password_to_long));
 			}else if(!((password1.getText().toString()).equals(password2.getText().toString()))){
 				throw new Exception(getResources().getString(R.string.end_account_password_mismatch));
 			}
 			// Give warning
-			AlertDialog.Builder exit = new AlertDialog.Builder(MainActivity.this);
-			exit.setTitle(R.string.end_account_last_chance)
+			AlertDialog.Builder endAccount = new AlertDialog.Builder(MainActivity.this);
+			endAccount.setTitle(R.string.end_account_last_chance)
 					.setIcon(CONTEXT_IGNORE_SECURITY)
 					.setNeutralButton(R.string.yes,
 							new DialogInterface.OnClickListener() {
@@ -986,7 +1125,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 								public void onClick(DialogInterface dialog,
 										int which) {
 									//Attempt end account, if failed throw new Exception(getResources().getString(R.string.end_account_failed));
-									
+									// Make sure that the user has left groups e.g.
 									// Success go back to start menu and close dialog
 									try{// prevents bug, can't logout twice if multiple dialogs shows (cause fast clicking)
 										if(!((backAppTitle.peek()).equals(null))){
@@ -996,7 +1135,8 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 											expAdapter = backExpMenu.pop();
 											expandList.setAdapter(expAdapter);			
 											backAppTitle.pop();
-											setTitle(getResources().getString(R.string.title_activity_main));		
+											setTitle(getResources().getString(R.string.title_activity_main));	
+											stopService(new Intent(MainActivity.this, AppService.class)); 
 										}
 									}catch(Exception e){}
 								}
@@ -1007,8 +1147,11 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 		}
 	}
 	
-// In group menu	
 	
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+// Dialog Group Operations Section - methods used by one dialog item. --------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------	
+// Group Options
 	/**
 	 *  NOT COMPLETE
 	 * leaveGroup - Opens an AlertDialog and gives the user the choice to leave the group 
@@ -1016,8 +1159,8 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	 */
 	public void leaveGroup(){
 		// Give warning
-		AlertDialog.Builder exit = new AlertDialog.Builder(MainActivity.this);
-		exit.setTitle(R.string.leave_group_last_chance)
+		AlertDialog.Builder leaveGroup = new AlertDialog.Builder(MainActivity.this);
+		leaveGroup.setTitle(R.string.leave_group_last_chance)
 				.setMessage(R.string.leave_group_warning_text)
 				.setIcon(CONTEXT_IGNORE_SECURITY)
 				.setNeutralButton(R.string.yes,
@@ -1042,7 +1185,12 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 						})
 				.setNegativeButton(R.string.no, null).create().show();
 	}
+// Group Features
+	//Coming soon
+// Authority - moderator, see dialog list operations section
 	
+	
+// Authority - admin
 	
 	/**
 	 *  NOT COMPLETE
@@ -1050,7 +1198,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	 * 		   			 a message to inform the user of what went wrong. If correct
 	 * 		   			 change the group's name, close the dialog and go back to group menu.
 	 */
-	public void changeGroupName(){
+	public void changeGroupName(){ 
 		// Attempt create group
 		EditText groupName = (EditText) custom.findViewById(R.id.user_text_input);
 		EditText password = (EditText) custom.findViewById(R.id.password);
@@ -1058,16 +1206,16 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			// Check Group Name
 			if (groupName.getText().toString().length() == 0){
 				throw new Exception(getResources().getString(R.string.change_group_name_error_no_name));
-			}else if(groupName.getText().toString().length() < minGroupName){
+			}else if(groupName.getText().toString().length() < MIN_GROUP_NAME){
 				throw new Exception(getResources().getString(R.string.change_group_name_error_name_to_short));
-			}else if(groupName.getText().toString().length() > maxGroupName){
+			}else if(groupName.getText().toString().length() > MAX_GROUP_NAME){
 				throw new Exception(getResources().getString(R.string.change_group_name_error_name_to_long));
 			}// Check Password
 			if(password.getText().toString().length() == 0){
 				throw new Exception(getResources().getString(R.string.change_group_name_error_no_password));
-			}else if (password.getText().toString().length() < minPassword){
+			}else if (password.getText().toString().length() < MIN_PASSWORD){
 				throw new Exception(getResources().getString(R.string.change_group_name_error_password_to_short));
-			}else if(password.getText().toString().length() > maxPassword){
+			}else if(password.getText().toString().length() > MAX_PASSWORD){
 				throw new Exception(getResources().getString(R.string.change_group_name_error_password_to_long));
 			}	
 			
@@ -1094,12 +1242,17 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	 *  NOT COMPLETE
 	 * 	setGroupInfo - Not yet fully implemented
 	 */
-	public void setGroupInfo(){
+	public void setGroupInfo(){ 
 		EditText groupName = (EditText) custom.findViewById(R.id.user_text_input);
-		// Attempt to set group info (in server database) throw exception if failed...		
+		// Attempt to set group info (in server database) throw exception if failed...	
+		Toast.makeText(getBaseContext(), this.getResources().getString(R.string.error_service_not_made), Toast.LENGTH_LONG).show();
 	}
-
-	public void endGroup(){
+	/**
+	 * NOT COMPLETE
+	 * endGroup - Reads in password confirmation from user and if the inpute correct
+	 * 		      it ends the group.
+	 */
+	public void endGroup(){ 
 		EditText password1 = (EditText) custom.findViewById(R.id.password1);
 		EditText password2 = (EditText) custom.findViewById(R.id.password2);
 		
@@ -1107,24 +1260,25 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			// Check if the user password input is correct
 			if((password1.getText().toString().length() == 0) || (password2.getText().toString().length() == 0)){
 				throw new Exception(getResources().getString(R.string.end_group_no_passwords));
-			}else if((password1.getText().toString().length() < minPassword) || (password2.getText().toString().length() < minPassword)){
+			}else if((password1.getText().toString().length() < MIN_PASSWORD) || (password2.getText().toString().length() < MIN_PASSWORD)){
 				throw new Exception(getResources().getString(R.string.end_group_password_to_short));
-			}else if((password1.getText().toString().length() > maxPassword) || (password2.getText().toString().length() > maxPassword)){
+			}else if((password1.getText().toString().length() > MAX_PASSWORD) || (password2.getText().toString().length() > MAX_PASSWORD)){
 				throw new Exception(getResources().getString(R.string.end_group_password_to_long));
 			}else if(!((password1.getText().toString()).equals(password2.getText().toString()))){
 				throw new Exception(getResources().getString(R.string.end_group_password_mismatch));
 			}			
 			// Give warning
-			AlertDialog.Builder exit = new AlertDialog.Builder(MainActivity.this);
-			exit.setTitle(R.string.end_group_last_chance)
+			AlertDialog.Builder endGroup = new AlertDialog.Builder(MainActivity.this);
+			endGroup.setTitle(R.string.end_group_last_chance)
 					.setIcon(CONTEXT_IGNORE_SECURITY)
 					.setNeutralButton(R.string.yes,
 							new DialogInterface.OnClickListener() {
 								// Add actions on click here
 								public void onClick(DialogInterface dialog,
 										int which) {
+									// Check if the password is correct..
 									// Attempt end group, if failed throw new Exception(getResources().getString(R.string.end_group_failed));
-									
+									// remove group in database and throw out users from the group menu...
 									// Success go back to start menu and close dialog
 									try{// prevents bug, can't end group twice if multiple dialogs shows (cause fast clicking)
 										if(!((backAppTitle.peek()).equals(((MainActivity.this).getResources().getString(R.string.add_online_tile))))){
@@ -1143,4 +1297,93 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 			Toast.makeText(getBaseContext(),e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
+	
+// ---------------------------------------------------------------------------------------------------------------------------------------------------
+// Dialog List Operation Section - methods used by one list dialog item. --------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------------------------------		
+	
+	/**
+	 * answerGropInvites - Gives the user an AlertDialog that presents the option to join
+	 * 					   the group or if the user 
+	 * @param groupName - A final String, the name of the group which to join or not.
+	 * @param position - A final int, the group's position in the list.
+	 */
+	public void answerGropInvites(final String groupName, final int position){
+		if( (getTitle().toString()).equals(getResources().getString(R.string.title_activity_main) +getResources().getString(R.string.add_online_tile)) ){
+			AlertDialog.Builder answerGroupInvite = new AlertDialog.Builder(MainActivity.this);
+			answerGroupInvite.setTitle(R.string.answer_invite_title)
+			.setMessage(MainActivity.this.getResources().getString(R.string.answer_invite_message)  + groupName)
+			.setIcon(CONTEXT_IGNORE_SECURITY)
+			.setPositiveButton(R.string.yes,
+				new DialogInterface.OnClickListener() {
+					// Add actions on click here
+					public void onClick(DialogInterface dialog,int which) {
+						// Attempt to join the group, if failed throw new Exception(getResources().getString(R.string.join_group_failed));
+						// Add group in my groups
+						// Success go to group menu and close dialog
+						Toast.makeText(getBaseContext(),R.string.join_group_success, Toast.LENGTH_LONG).show();
+								CharSequence s= new String(": "+ groupName);
+								goToMenu("group",s);
+								closeDialog();							
+								
+					}
+				})
+				.setNeutralButton(R.string.no, null)
+				.setNegativeButton(R.string.answer_invite_remove_invite_option, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int which) {
+				// Remove group invite from list (and on server?)
+					list.remove(position);
+					listview.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.dialog_list_row,list));	
+				}
+			}).create().show();	
+		}
+	}
+	
+	/**
+	 * answerJoinGroup - Gives admin and moderator an AlertDialog with the choice to add or reject
+	 * 					 a user that wants to be part of the group.
+	 * @param username - A String, the user name of the user that wants to join the group. 
+	 * @param position - An int, the user's position in the list.
+	 */
+	public void answerJoinGroupRequest(final String username,final int position){
+		// NOTE: FAST CLICK BUGG MAY EXIST
+		AlertDialog.Builder answerGroupInvite = new AlertDialog.Builder(MainActivity.this);
+		answerGroupInvite.setTitle(R.string.answer_request_title)
+		.setMessage(MainActivity.this.getResources().getString(R.string.answer_request_message)  + username)
+		.setIcon(CONTEXT_IGNORE_SECURITY)
+		.setPositiveButton(R.string.yes,
+				new DialogInterface.OnClickListener() {
+					// Add actions on click here
+					public void onClick(DialogInterface dialog,
+							int which) {
+						// Attempt to add the user to the group, if failed throw new Exception(getResources().getString(R.string.join_by_request_group_failed));
+						// Add group in my groups
+						// Success remove the added member from list and close dialog
+						list.remove(position);
+						listview.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.dialog_list_row,list));
+					}
+				})
+		.setNeutralButton(R.string.no, null)
+		.setNegativeButton(R.string.answer_request_remove_user_request, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog,
+					int which) {
+				// Remove group invite from list (and on server?)
+				list.remove(position);
+				listview.setAdapter(new ArrayAdapter<String>(MainActivity.this, R.layout.dialog_list_row,list));	
+			}
+		}).create().show();	
+	}	
+	
+	/**
+	 * myGroups - Goes to the indicated group menu and closes the dialog.
+	 * @param groupName - A String, the group's name 
+	 */
+	public void myGroups(String groupName){
+		
+		       // Get group authority
+				goToMenu("group", ": "+groupName);
+				// add group autortity
+				closeDialog();
+	}
+	
 }

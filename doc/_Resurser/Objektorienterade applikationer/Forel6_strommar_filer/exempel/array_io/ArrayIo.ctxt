@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=array\ fileName
+comment0.target=void\ save(long[],\ String)
+comment1.params=fileName
+comment1.target=long[]\ load(String)
+numComments=2

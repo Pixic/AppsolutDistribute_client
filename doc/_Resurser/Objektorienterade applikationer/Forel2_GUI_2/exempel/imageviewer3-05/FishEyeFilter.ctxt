@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=image
+comment0.target=void\ apply(OFImage)
+comment0.text=\nApply\ this\ filter\ to\ an\ image.\n\n@param\ \ image\ \ The\ image\ to\ be\ changed\ by\ this\ filter.\n\n
+comment1.params=width
+comment1.target=int[]\ computeXArray(int)
+comment1.text=\nCompute\ and\ return\ an\ array\ of\ horizontal\ offsets\ for\ each\ pixel\ column.\nThese\ can\ then\ be\ applied\ as\ the\ horizontal\ offset\ for\ each\ pixel.\n\n
+comment2.params=height
+comment2.target=int[]\ computeYArray(int)
+comment2.text=\nCompute\ and\ return\ an\ array\ of\ vertical\ offsets\ for\ each\ pixel\ row.\nThese\ can\ then\ be\ applied\ as\ the\ vertical\ offset\ for\ each\ pixel.\n\n
+numComments=3

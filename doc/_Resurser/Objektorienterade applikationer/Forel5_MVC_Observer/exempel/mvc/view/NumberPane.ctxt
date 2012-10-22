@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=buttonText\ nextButtonController\ resetButtonController
+comment0.target=NumberPane(java.lang.String,\ controller.NextButtonController,\ controller.ResetButtonController)
+comment1.params=o\ arg
+comment1.target=void\ update(java.util.Observable,\ java.lang.Object)
+numComments=2

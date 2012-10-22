@@ -55,7 +55,7 @@ public interface UserInputFilter {
 		public CharSequence filter(CharSequence source, int start, int end, 
         		Spanned dest, int dstart, int dend) { 
                 for (int i = start; i < end; i++) { 
-                        if (!(Character.isLetterOrDigit(source.charAt(i))|| (source.charAt(i) == 64))) { 
+                        if (!(Character.isLetterOrDigit(source.charAt(i)) || (source.charAt(i) == 64) || (source.charAt(i) == 46))) { 
                         	return ""; 
                         } 
                 } 

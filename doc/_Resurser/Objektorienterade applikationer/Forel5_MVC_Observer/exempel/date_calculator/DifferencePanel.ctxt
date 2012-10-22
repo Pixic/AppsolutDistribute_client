@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=DifferencePanel()
+comment1.target=void\ makePanel()
+comment2.params=heading\ view
+comment2.target=void\ makeDatePanel(String,\ DateView)
+comment3.target=void\ computeTimeDifference()
+numComments=4

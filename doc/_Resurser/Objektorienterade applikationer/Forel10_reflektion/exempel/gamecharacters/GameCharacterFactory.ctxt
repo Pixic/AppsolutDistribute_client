@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=GameCharacterFactory()
+comment1.params=name
+comment1.target=GameCharacter\ getCharacter(String)
+comment2.params=name\ gc
+comment2.target=void\ addCharacter(String,\ GameCharacter)
+comment3.params=fileName
+comment3.target=void\ loadExtraCharacters(String)
+comment4.params=fileName
+comment4.target=ArrayList<String>\ loadExtraClassNames(String)
+comment5.target=Set<String>\ getCharacterNames()
+numComments=6

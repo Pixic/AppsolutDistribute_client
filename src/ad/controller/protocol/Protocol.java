@@ -33,7 +33,7 @@ public class Protocol {
 	 * @return boolean - if denied account (not implemented returns true always)
 	 * @throws Exception - if it failed to make a connection or if something else went wrong.
 	 */
-	public boolean attemptCreationOfAccount(String username, String password, String firstName, String surname)/* throws Exception*/{
+	public boolean attemptCreationOfAccount(String username, String password, String firstName, String surname, String email)/* throws Exception*/{
 		
 		
 		return true; // if denied it should mean that the user name was taken

@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=ImageViewer()
+comment0.text=\nCreate\ an\ ImageViewer\ show\ it\ on\ screen.\n\n
+comment1.target=void\ openFile()
+comment1.text=\nOpen\ function\:\ open\ a\ file\ chooser\ to\ select\ a\ new\ image\ file.\n\n
+comment2.target=void\ quit()
+comment2.text=\nQuit\ function\:\ quit\ the\ application.\n\n
+comment3.target=void\ makeFrame()
+comment3.text=\nCreate\ the\ Swing\ frame\ and\ its\ content.\n\n
+comment4.params=frame
+comment4.target=void\ makeMenuBar(JFrame)
+comment4.text=\nCreate\ the\ main\ frame's\ menu\ bar.\n@param\ frame\ \ \ The\ frame\ that\ the\ menu\ bar\ should\ be\ added\ to.\n\n
+numComments=5

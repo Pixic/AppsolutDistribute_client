@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.target=JobShop()
+comment1.target=void\ createAndStartThreads()
+comment2.target=void\ stopThreads()
+numComments=3
