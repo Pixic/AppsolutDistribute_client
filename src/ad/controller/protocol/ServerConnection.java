@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
+import java.io.Serializable;
 import java.io.StreamCorruptedException;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -31,28 +32,26 @@ import java.net.UnknownHostException;
  * 
  */
 
-public class ServerConnection{
+public class ServerConnection implements Serializable{
 
 	public static final int PORT = 3322;
 
-	private String ipString = "192.168.1.4";
+	private String ipString = "95.80.48.213";
 	private InetAddress ip;
 
 	private Socket socket;
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 
-	public ServerConnection() {
+	public void connectToServer() {
+
 		try {
 			ip = InetAddress.getByName(ipString);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-	}
-
-	public void connectToServer() {
-
+		}	
+		
 		Socket socket = null;
 
 		// Attempt to connect to the server socket

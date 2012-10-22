@@ -628,7 +628,7 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	 * goToChat - goes to chat activity
 	 * 
 	 */
-	public void goToChat(){
+	public void goToChat(){		
 		Intent intent = new Intent(MainActivity.this, ChatActivity.class);
 		intent.putExtra("Protocol", protocol);
 		startActivity(intent);

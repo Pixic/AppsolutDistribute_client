@@ -61,12 +61,12 @@ public class ChatActivity extends ListActivity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.chat);
-		
+		Toast.makeText(getBaseContext(),"gogo", Toast.LENGTH_LONG).show();
 		Intent i = getIntent();
 		protocol = (Protocol) i.getSerializableExtra("Protocol");
 		
-		ListviewContent.add("Androidpeople.com");
-		ListviewContent.add("Android FROYO");
+//		ListviewContent.add("Androidpeople.com");
+//		ListviewContent.add("Android FROYO");
 		
 		textContent = (EditText) findViewById(R.id.EditText01);
 		submit = (Button) findViewById(R.id.Button01);
@@ -85,7 +85,7 @@ public class ChatActivity extends ListActivity implements OnClickListener {
 	public void onClick(View v) {
 		if (v == submit) {
 			ListviewContent.add(textContent.getText().toString());
-			protocol.sendMessage(textContent.getText().toString());
+			//protocol.sendMessage(textContent.getText().toString());
 			
 			setListAdapter(new ListViewAdapter(this));
 		}
