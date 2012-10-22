@@ -27,12 +27,22 @@ import java.util.ArrayList;
 
 public class Group implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9082898976713737105L;
+	public static int CREATE_GROUP = 0;
+	public static int DELETE_GROUP = 1;
+	
 	private int groupId;
+	private String groupName;
 	private ArrayList<User> users;
+	private int groupAction;
 	
 	public Group(int groupId)
 	{
 		this.groupId = groupId;
+		users = new ArrayList<User>();
 	}
 	
 	/*
@@ -41,6 +51,18 @@ public class Group implements Serializable{
 	public int getGroupId()
 	{
 		return groupId;
+	}
+	public ArrayList<User> getUsers()
+	{
+		return users;
+	}
+	public int getGroupAction()
+	{
+		return groupAction;
+	}
+	public String getGroupName()
+	{
+		return groupName;
 	}
 	/*
 	 * Set methods
@@ -52,4 +74,16 @@ public class Group implements Serializable{
 	/*
 	 * Other methods
 	 */
+	public void addMember(User u)
+	{
+		users.add(u);
+	}
+	public void setGroupAction(int i)
+	{
+		this.groupAction = i;
+	}
+	public void setGroupName(String s)
+	{
+		this.groupName = s;
+	}
 }

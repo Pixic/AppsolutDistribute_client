@@ -624,7 +624,10 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 				.setNegativeButton(R.string.no, null).create().show();
 	}
 	
-	
+	/**
+	 * goToChat - goes to chat activity
+	 * 
+	 */
 	public void goToChat(){
 		Intent intent = new Intent(MainActivity.this, ChatActivity.class);
 		intent.putExtra("Protocol", protocol);
@@ -926,6 +929,33 @@ public class MainActivity extends Activity implements OnChildClickListener, User
 	 * 					   to explain what went wrong
 	 */
 	public void goOnline(String username, String password) throws Exception{
+		
+//		Runnable myProcess = new Runnable(){
+//			
+//			
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				
+//				setSomething(protocol.attemptLogin(username, password));
+////				try {
+////					setSomething(protocol.attemptLogin(username, password));
+////				} catch (Exception e) {
+////					// TODO Auto-generated catch block
+////					e.printStackTrace();
+////					
+//					handler.post(new Runnable() {
+//						public void run() {
+//							
+//							Toast.makeText(getBaseContext(), "" + getSomething(), Toast.LENGTH_LONG).show();
+//						}
+//					});
+////				}
+//			}
+//			
+//		};
+//		new Thread(myProcess).start();
+		
+		
 		try{
 			protocol.attemptLogin(username, password);	// Not yet implemented
 		}catch(Exception e){

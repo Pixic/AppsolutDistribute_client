@@ -26,6 +26,8 @@ import java.io.Serializable;
 
 public class ChatMessage implements Serializable{
 
+
+	private static final long serialVersionUID = -8161333432655648384L;
 	private User from;
 	private Group to;
 	private String message;
@@ -44,7 +46,7 @@ public class ChatMessage implements Serializable{
 	{
 		return from;
 	}
-	
+
 	public Group getGroup()
 	{
 		return to;

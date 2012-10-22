@@ -2,6 +2,8 @@ package ad.controller.protocol;
 
 import java.io.Serializable;
 
+import ad.model.protocol.*;
+
 /**
  * Protocol 
  * 
@@ -25,6 +27,8 @@ import java.io.Serializable;
  */
 public class Protocol implements Serializable {
 	
+	private ServerConnection sc;
+	
 	/**
 	 * attemptCreationOfAccount - Tries to create account returns false if failed to create account, 
 	 * 							  throws an exception if something else went wrong.
@@ -35,13 +39,107 @@ public class Protocol implements Serializable {
 	 * @return boolean - if denied account (not implemented returns true always)
 	 * @throws Exception - if it failed to make a connection or if something else went wrong.
 	 */
+	
+	
+	public Protocol()
+	{
+		sc = new ServerConnection();
+//		sc.connectToServer();
+		//sc.connectToServer();
+		
+		
+	}
+	
+	public Object readAndProcess()
+	{
+		Object o = sc.readFromServer();
+		
+		if(o instanceof ChatMessage)
+		{
+			ChatMessage cm = (ChatMessage)o;
+			//Bla bla
+			//Uppdatera view för chat
+			return cm;
+		}
+		return null;
+	}
+	
 	public boolean attemptCreationOfAccount(String username, String password, String firstName, String surname, String email)/* throws Exception*/{
 		
+//		sc.connectToServer();
+//		
+//		Object response;
+//		User user = new User();
+//		
+//		user.setUserName(username);
+//		user.setPassword(password);
+//		user.setFirstName(firstName);
+//		user.setSurname(surname);
+//		user.setEmailAddress(email);
+//		
+//		user.setAccountAction(User.CREATE_ACCOUNT);
+//		
+//		sc.writeToServer(user);
+//		
+//		//Expecting a User back:
+//		while((response = sc.readFromServer()) == null);
+//		if(response instanceof User)
+//		{
+//			User result = (User)response;
+//			
+//			//User created, success!
+//			if(result != null)
+//			{
+//				
+//			}
+//			
+//			
+//		}
+//		else if(response instanceof String)
+//		{
+//			//Couldn't create account, 
+//		}
+//		else
+//		{
+//			//Something unexpected happened!
+//		}
 		
 		return true; // if denied it should mean that the user name was taken
 	}
 
-	public void attemptLogin(String username,String password) throws Exception {
+	public boolean attemptLogin(String username,String password) /*throws Exception*/ {
+		sc.connectToServer();
+		
+		Object response;
+		User usr = new User();
+		
+		usr.setUserName(username);
+		usr.setPassword(password);
+		usr.setAccountAction(User.LOG_IN);
+		
+		sc.writeToServer(usr);
+		
+		
+		while((response = sc.readFromServer()) == null);
+		
+		if(response instanceof User)
+		{
+			//Logged in successfully! 
+			return true;
+		}
+		else if(response instanceof String)
+		{
+			//Couldn't log in, username or password incorrect!
+			//throw new Exception();
+			return false;
+		}
+		else
+		{
+			//Something unexpected happened!
+			//throw new Exception();
+			return false;
+		}
+		
 		
 		// login_account_dont_exist
 		// database error?
@@ -55,10 +153,8 @@ public class Protocol implements Serializable {
 		return true; // should return false if groupname is taken
 	}
 	
-	
 	public void sendMessage(String message){
 		
 	}
-	
-	
+
 }

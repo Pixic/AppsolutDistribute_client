@@ -105,7 +105,7 @@ public class AppService extends Service{
 // ------ Updater Thread
 	class Updater extends Thread {
 		public boolean isRunning = false;
-		static final long DELAY = 3000; //updating every 3000 millisecond = 3 seconds
+		static final long DELAY = 30000; //updating every 3000 millisecond = 3 seconds
 		/* (non-Javadoc)
 		 * @see java.lang.Thread#run()
 		 */
