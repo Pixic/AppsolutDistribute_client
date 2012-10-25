@@ -1,0 +1,186 @@
+body {
+	font-family: tahoma, verdana;
+	background-color: #dddddd;
+	border-width: 0em;
+	margin-top: 0.1em;
+	margin-left: 0.1em;
+}
+a{
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000000;
+	font-style: none;
+	text-decoration: none;
+}
+a:link {
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000000;
+	font-style: none;
+	text-decoration: none;
+}
+a:visited {
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000000;
+	font-style: none;
+	text-decoration: none;
+}  
+a:hover {
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000000;
+	background-color: #ccccff;
+	font-style: none;
+	text-decoration: none;
+}  
+a:active {
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000033;
+	font-style: none;
+	text-decoration: none;
+}
+a.menu{
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000000;
+	font-style: none;
+	text-decoration: none;
+}
+a:link.menu {
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000000;
+	font-style: none;
+	text-decoration: none;
+}
+a:visited.menu {
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000000;
+	font-style: none;
+	text-decoration: none;
+}  
+a:hover.menu {
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000000;
+	background-color: #ccccff;
+	font-style: none;
+	text-decoration: none;
+}  
+a:active.menu {
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000033;
+	font-style: none;
+	text-decoration: none;
+}
+
+font{
+	font-family: tahoma, verdana;
+	font-size: 1em;
+	color:#000000;
+	background-color: #ccccff;
+	font-style: none;
+	text-decoration: none;
+}
+font.menu{
+	font-family: tahoma, verdana;
+	font-size: 1.2em;
+	color:#000000;
+	background-color: none;
+	font-style: bold;
+	text-decoration: none;
+}    
+
+div.menu{
+	width: 15em;
+	height:100%
+}
+
+table{
+	font-family: tahoma, verdana;
+	border-width: 0em;
+	background-color: none;
+}
+table.input{
+	font-family: tahoma, verdana;
+	border-width: 0em;
+	background-color: none;
+	vertical-align: top;
+}
+table.border1{
+	font-family: tahoma, verdana;
+	border-color: black;
+	border-width: 0.1em;
+	border-style: dotted;
+	background-color: #eeeeee;
+}
+tr{
+	font-family: tahoma, verdana;
+	font-size: 0.8em;
+	background-color: none;
+	color: black;
+	vertical-align: top;
+}
+tr.hover{
+	font-family: tahoma, verdana;
+	font-size: 0.8em;
+	background-color: none;
+	color: black;
+	vertical-align: top;
+}
+tr.hover:hover {
+	background-color: #ccccff;
+}
+
+th.tableheader {
+	font-family: tahoma, verdana;
+	font-size: 0.8em;
+	background-color: black;
+	color: silver;
+}
+th {
+	font-family: tahoma, verdana;
+	font-size: 0.8em;
+	background-color: grey;
+	color: silver;
+}
+
+td{
+	font-family: tahoma, verdana;
+	font-size: 0.8em;
+	background-color: none;
+	color: black;
+}
+td.input{
+	font-family: tahoma, verdana;
+	font-size: 0.8em;
+	background-color: grey;
+	color: black;
+}
+td.nobg{
+	font-family: tahoma, verdana;
+	font-size: 0.8em;
+	color: black;
+	background-color: none;
+}
+
+hr{
+	size: 0.1em;
+	color: black;
+}
+hr.menu{
+	width: 95%;
+	color: #eeeeee;
+}
+div.headerDivider {
+     border-left:1px solid #38546d; 
+     border-right:1px solid #16222c; 
+     height:80px;
+     position:absolute;
+     right:249px;
+     top:10px; 
+}

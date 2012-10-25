@@ -1,0 +1,8 @@
+Fel
+SQL-fråga:
+
+DELETE FROM  `appdist`.`users` WHERE  `users`.`userid` =22
+
+MySQL sa: 
+
+#1451 - Cannot delete or update a parent row: a foreign key constraint fails (`appdist`.`admin2groups`, CONSTRAINT `fk_admin_has_group_admin` FOREIGN KEY (`users_adminid`) REFERENCES `users` (`userid`) ON DELETE NO ACTION ON UPDATE NO ACTION) 

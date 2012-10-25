@@ -1,0 +1,109 @@
+//////////////////////////////////////////////////////////////////////////////////////////
+Kända buggar:
+
+2012-10-10 (1)
+- Dialog fönstrets storlek är ej väl definerad, förslagen lösning är att låta dialog fönstret
+  uppta hela skärmen genom att ändra <item name="android:windowIsFloating">true</item> till
+  false i customdialog style i styles.xml. 
+  OBS! Detta åtgärdar inte Scrollnings buggen nedan.(FIXAT 2012-10-16)
+2012-10-10 (2)
+- Scrollning i dialog fönstret fungerar ej som tänkt, leder till att komponenter i dialog
+  fönstret blir onåbara för användaren.(FIXAT 2012-10-13)
+
+2012-10-11 (1)
+- Input från användaren kan vara alla tecken.(FIXAT 2012-10-17)
+ 
+2012-10-13 (1)
+- Input från användaren kan vara okänt många tecken lång. (FIXAT 2012-10-15)(FIXAT 2012-10-17)
+
+2012-10-14 (1)
+- Vid scrollning i dialog fönstret uppdateras inte bakgrunden korrekt. (FIXAT 2012-10-14)
+
+2012-10-16 (1)
+- vid scrollning kan även dialogens titel inte uppdatera bakgrunden korrekt.
+(inte sett problemet sen vi gick över till fullskärm)
+
+Kommentar: Troligen går ovanstånde buggar att åtgära i style.xml eller direkt i layoutens xml-fil 
+           och är enbart ett xml problem, dvs utseende mässigt problem enbart och har troligen 
+	   inget att göra med .java klasserna i src mappen.
+
+2012-10-16 (2)
+- Logik fel vid backning då fler menyer införandes . (FIXAT 2012-10-16)
+
+2012-10-19 (1)
+- Snabb tryckning(bara testat med datorns mus) på meny alternativ kan starta flera dialog fönster,
+  vilket resulterar i två scenarior. Det första scenariot är inget problem, flera custom dialoger 
+  lägger sig ovan på varandra och den som hamnar överst är fortfarande operativ. När man stänger 
+  dialogen är de andra kvar och de är inte operativa så man måste klicka på androids back knapp  
+  för att stänga dem.
+  Det andra scenariot kan få applikationen att krascha, det är vid tillfällen som AlertDialogs 
+  används (tex logout) och man väljer ett alternativ som har en listener. Då försöker 
+  applikationen att utföra en händelse flera gånger, vilket orsaker kraschen. 
+  (andra scenariot FIXAT 2012-10-19)	      
+
+2012-10-20 (1)
+- Vid tryck på Service funktionens ikon i Ongoing fältet startas appen om, men Service funktionen
+  var tänkt att endast köra när man är online, dvs att man skall hamna i online menyn vid tryck
+  utav ikonen i Ongoing fältet.(FIXAT 2012-10-21)
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+Okända/potentiella buggar som bör testas.
+
+Bör skriva JUnit tester för följande scenarior:
+GUI:
+- Konstruera kända menyer som förväntas fungera
+- Försöka Konstruera menyer som inte existerar och förväntas att inte fungera
+- Metoden addItem i ExpListAdapter
+- Skapandet av dialoger, inkluderar test av skapandet av felaktiga dialoger
+Användar input:
+- Testa input text olika längd från användaren, i kombination med reaktion från server delen.
+- Testa input text olika tecken från användaren, i kombination med reaktion från server delen.
+- Text längd i synk med webb databasen.
+Plötslig systemkrasch:
+- Vad händer om man är online när systemet dör?
+
+
+//////////////////////////////////////////////////////////////////////////////////////////
+Bugg status:
+
+2012-10-10 (1): Beslutat vi kör att dialogen är fullskärm
+
+2012-10-10 (2): Lägger dialogens layout i an scrollview, åtgärdade problem av åtkomst.
+
+2012-10-11 (1): Filter för tecken har införts, filtrerar bort special tecken (utom @).
+		Alla tecken och siffror fungerar, har dock inte hunnit testa alla tecken utan
+		bara de från standard tangentbordet och kinsiska tecken, vet inte om åäö eller
+		andra tecken fungerar. 
+
+2012-10-13 (1): Åtgärdat, användaren kan skriva in hur många tecken som helst men programmet
+		tillåter inte för lång indata och ger användaren chansen att minska indatan.
+		OBS! kolla om det är synkat med webb databasen och att denna åtgärd måste göras
+		för samtlig text från användaren.
+		(2012-10-17) Tillagt filter för att förhindra användaren att mata in fler tecken
+	   	än det maxmala antalet.
+		
+
+2012-10-14 (1): ScrollView måste ha en backgrund (bild eller färg), läggs till i:
+		dialog_scroll_style i styles.xml. kommentar; kan finnas kvar....
+
+2012-10-16 (1): Ej FIXAT (vet ej om problemet finns kvar)
+
+
+2012-10-16 (2): Det var flera problem som samverkade, det var dels fel i logiken men även fel på 
+		värdet som skulle in i metoden för back(var String, skulle vara CharSequense).
+
+2012-10-19 (1): Det som är åtgärdat är kraschen, buggen att flera dialoger öppnas kvarstår.
+		Kraschen årgärdades genom att sätta en try catch (fångar inget Exception)  
+		runt AlertDialogen samt innesluta AlertDialogen i ett vilkor, som undersöker  
+		ifall man redan utfört åtgärden(tex i logout skickar man i stacken för att
+		se om man är i rot menyn dvs "start" menyn).En svår fixad bugg som inte 
+		är fixad till 100 %.
+
+2012-10-20 (1): I aktivitetens onCreate() kollar man om servicen kör och om den gör det så
+		går man direkt till online menyn. 
+
+//////////////////////////////////////////////////////////////////////////////////////////
+(c) 2012 Stefan Arvidsson
+Senast uppdaterad: 2012-10-21

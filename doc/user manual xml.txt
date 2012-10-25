@@ -1,0 +1,103 @@
+	<string name="about_text"> 
+		This app was created by a group of students at Chalmers University of technology as an assignment. The creators are: Mattias Isene, David Harald, Michael Henriksson, Anton Kostet and Stefan Arvidsson. We are using a free Apache 2.0 license. 
+	</string>
+	<!-- 1.1. General, help text -->
+	<string name="help1_1"> <!--  1.1. Help -->
+	   Welcome to help! This section will guide you for a better app-experience with AppsolutDistribute. Use the index to find what you are looking for.
+	</string>
+	<string name="help1_2"> <!-- 1.2. About -->
+	    Information about copyright, license and who made the game. \n 
+	</string>
+	<string name="help1_3"><!-- 1.3. Settings -->
+	    By pressing the settings button a small popup will appear in the button of the screen. This is possible wherever you are in the app and from here you can change settings for your account.
+	</string>
+	<string name="help1_4"><!-- 1.4. Navigation -->
+	
+	</string>
+	<!-- 2. Connect To Server, help text -->
+	<string name="help2_1"><!-- 2.1 Create Account -->
+	To get started with your AppsoultDistribute app you have to create an account. This is done from the from the “Create Account” tab. You need to fill in you user data, such as username, password, first name and surname. Make sure you remember your password! In this version there is no way to recover your password! The username needs to be unique. When you are done press create account, you are now ready to use AppsolutDistribute. 
+	</string>
+	<string name="help2_2"><!-- 2.2 Login -->
+	    Enter username and password then click ok.
+	</string>	
+	<string name="help2_3"><!-- 2.3. Select Server -->
+	    *User select/types specified server IP and server password. In the first version only one server will be available. 
+	</string>
+	<!-- 3. Manage Groups, help text -->
+	<string name="help3_1"><!-- 3.1. My Groups -->
+	    To access the manage group tab you need to be online and connected to the server. Under the manage groups tab you can change group name, password, add/remove users and more for the groups you have created or are moderator for. /n My groups are the list of the user’s active and archived groups.
+	</string>
+	<string name="help3_2"><!-- 3.2. Create Group -->
+	    To create a new group on the server you have to choose name, activities and invite members. 
+	</string>
+	<string name="help3_3"><!-- 3.3. Join Group -->
+	  See a list of active invites. To join a group click accept invite.   
+	</string>
+	<string name="help3_4"><!-- 3.4. Answer Group Invites -->
+	    
+	</string>
+	<!-- 4. Manage Account, help text -->
+	<string name="help4_1"><!-- 4.1. Change User Information -->
+	    Under the manage account tab you will find the tools to change password, user information and the option to end your account. Information such as first name, surname, email and more can be edited at any time using this button.
+	</string>
+	<string name="help4_2"><!-- 4.2. Change Password -->
+	    
+	</string>
+	<string name="help4_3"><!-- 4.3. End Account -->
+	    
+	</string>
+	<!-- 5. Group Options, help text -->
+	<string name="help5_1"><!-- 5.1. Group Members -->
+	    
+	</string>
+	<string name="help5_2"><!-- 5.2. Group Info -->
+	    
+	</string>
+	<string name="help5_3"><!-- 5.3. Leave Group -->
+	    
+	</string>
+	<!--  -->
+	<string name="help6_1"><!-- 6.1. Chat -->
+	    
+	</string>
+	
+	 <!-- 7. Moderator Authority, help text -->	
+	<string name="help7_1"><!-- 7.1. What Is A Moderator? -->
+	    
+	</string>
+	<string name="help7_2"><!-- 7.2. Send Invites -->
+	
+	</string> 
+	<string name="help7_3"><!-- 7.3. Answer Join Request -->
+	
+	</string>
+	<string name="help7_4"><!-- 7.4. Add Feature -->
+	    
+	</string>	
+	<string name="help7_5"><!-- 7.5. Remove Feature -->
+	    
+	</string>
+	<string name="help7_6"><!-- 7.6. Remove Group Member -->
+	    
+	</string>
+	
+	<!-- Admin Authority, help text -->
+	<string name="help8_1"><!-- 8.1. What Is A Group Admin? -->
+	    Has the all the moderator authorities and some special group admin authorities.
+	</string> 
+	<string name="help8_2"><!-- 8.2. Change Group Name -->
+	    
+	</string>
+	<string name ="help8_3"><!-- 8.3. Set Group Info -->
+	    
+	</string>
+	<string name="help8_4"><!-- 8.4. Promote User -->
+	    
+	</string>
+	<string name="help8_5"><!-- 8.5. Demote User -->
+	    
+	</string>
+	<string name="help8_6"><!-- 8.6. End Group -->
+	    test
+	</string>
