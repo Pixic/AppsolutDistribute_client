@@ -1,8 +1,0 @@
-#BlueJ class context
-comment0.target=Directions()
-comment1.target=Directions\ getInstance()
-comment2.params=d
-comment2.target=boolean\ isDirection(String)
-comment3.params=d
-comment3.target=String\ opposite(String)
-numComments=4

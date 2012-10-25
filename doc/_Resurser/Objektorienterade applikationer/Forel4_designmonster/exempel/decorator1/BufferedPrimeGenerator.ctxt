@@ -1,5 +1,0 @@
-#BlueJ class context
-comment0.params=n
-comment0.target=long[]\ nextSequence(int)
-comment0.text=\nCompute\ an\ array\ of\ prime\ numbers.\n\n@param\ \ n\ \ \ the\ number\ of\ numbers\ to\ compute\n@return\ \ \ \ \ an\ arry\ containing\ the\ next\ n\ numbers\ in\ the\ sequence\n\n
-numComments=1

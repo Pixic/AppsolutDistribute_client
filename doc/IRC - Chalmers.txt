@@ -1,3 +1,0 @@
-IRC
-Server	chalmers.it
-Kanal	#SE

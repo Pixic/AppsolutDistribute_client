@@ -1,15 +1,0 @@
-C:\_My stuff\Apps\Programming and Web\Java - Eclipse\eclipse-jee-indigo-SR2-win32-x86_64\eclipse\plugins\org.apache.ant_1.8.2.v20120109-1030\bin
-
-ant -f ../../../../../../../../../Users/Pixic/workspace_android/AppsolutDistribute/build.xml
-_______________________
-1. Kopierade org.apache.ant_1.8.2.v20120109-1030 till workspace
-2. Gick till org.apache.ant_1.8.2.v20120109-1030\bin
-3. ant -f ../../AppsolutDistribute/build.xml
-4. tools.jar saknas. (ska finnas i c:\Program Files
-
-ADD these?
-<classpathentry kind="con" path="C:\Program Files (x86)\Android\android-sdk\platform-tools"/>
-<classpathentry kind="con" path="C:\Program Files (x86)\Android\android-sdk\tools"/>
-<classpathentry kind="con" path="com.sun.tools.javac.Main"/>
-<classpathentry kind="con" path="C:\Program Files\Java\jre7"/>
-

@@ -1,6 +1,0 @@
-#BlueJ class context
-comment0.target=TextToBinaryConverter()
-comment1.target=void\ getFileNames()
-comment2.target=void\ openFiles()
-comment3.target=void\ convert()
-numComments=4

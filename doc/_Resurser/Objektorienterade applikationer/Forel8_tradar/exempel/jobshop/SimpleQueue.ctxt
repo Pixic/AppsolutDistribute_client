@@ -1,6 +1,0 @@
-#BlueJ class context
-comment0.target=int\ size()
-comment1.params=obj
-comment1.target=void\ put(T)
-comment2.target=T\ take()
-numComments=3

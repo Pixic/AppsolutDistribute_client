@@ -1,6 +1,0 @@
-#BlueJ class context
-comment0.params=interval\ maxSteps
-comment0.target=BackgroundJob(long,\ int)
-comment1.target=void\ run()
-comment2.target=long\ getResult()
-numComments=3

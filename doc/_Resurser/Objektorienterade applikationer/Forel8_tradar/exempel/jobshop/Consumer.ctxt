@@ -1,5 +1,0 @@
-#BlueJ class context
-comment0.params=name\ interval\ queue
-comment0.target=Consumer(String,\ long,\ SimpleQueue<String>)
-comment1.target=void\ run()
-numComments=2
